@@ -1,0 +1,3110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Para ti, UWU</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+}
+
+body{
+    overflow:hidden;
+    font-family:Georgia,"Times New Roman",serif;
+    color:white;
+
+    background:
+    radial-gradient(circle at 15% 20%,rgba(0,255,220,.16),transparent 30%),
+    radial-gradient(circle at 85% 80%,rgba(30,120,255,.18),transparent 35%),
+    linear-gradient(135deg,#02070d,#032027,#02130f);
+}
+
+.pantalla{
+    position:fixed;
+    inset:0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+    padding:25px;
+
+    opacity:0;
+    pointer-events:none;
+    transform:scale(.96);
+
+    transition:.6s ease;
+    z-index:2;
+
+    overflow-y:auto;
+}
+
+.pantalla.activa{
+    opacity:1;
+    pointer-events:auto;
+    transform:scale(1);
+}
+
+h1{
+    font-size:clamp(45px,9vw,80px);
+
+    background:linear-gradient(
+        90deg,
+        #7ffff0,
+        #78aaff,
+        #8effd6
+    );
+
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+
+    margin-bottom:15px;
+}
+
+h2{
+    font-size:clamp(30px,6vw,50px);
+    margin-bottom:18px;
+}
+
+.subtitulo{
+    max-width:680px;
+    font-size:18px;
+    line-height:1.8;
+    opacity:.78;
+}
+
+.texto{
+    max-width:700px;
+    font-size:19px;
+    line-height:1.9;
+    opacity:.9;
+}
+
+.caja,
+.sorpresa,
+.carta{
+    width:min(750px,92vw);
+    padding:35px;
+
+    border-radius:25px;
+
+    background:rgba(2,18,25,.68);
+
+    border:1px solid rgba(110,255,230,.16);
+
+    backdrop-filter:blur(16px);
+
+    box-shadow:
+    0 0 70px rgba(0,220,200,.09);
+}
+
+.boton{
+    margin-top:28px;
+
+    padding:14px 30px;
+
+    border-radius:50px;
+
+    border:1px solid rgba(120,255,235,.35);
+
+    background:rgba(255,255,255,.06);
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    backdrop-filter:blur(12px);
+
+    transition:.3s;
+}
+
+.boton:hover{
+    transform:translateY(-4px) scale(1.04);
+
+    background:rgba(50,220,200,.13);
+
+    box-shadow:
+    0 0 35px rgba(0,230,210,.25);
+}
+
+.boton:disabled{
+    opacity:.4;
+    cursor:not-allowed;
+    transform:none;
+}
+
+/* ORBE */
+
+.orbe{
+    width:140px;
+    height:140px;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border:1px solid rgba(120,255,235,.3);
+
+    box-shadow:
+    0 0 45px rgba(0,230,210,.2),
+    inset 0 0 35px rgba(0,120,255,.15);
+
+    animation:respirar 3s infinite ease-in-out;
+
+    margin-bottom:25px;
+}
+
+.orbe span{
+    font-size:60px;
+    color:#83fff1;
+}
+
+/* PARTICULAS */
+
+.particula{
+    position:fixed;
+
+    width:3px;
+    height:3px;
+
+    border-radius:50%;
+
+    background:#83fff1;
+
+    opacity:.4;
+
+    pointer-events:none;
+
+    z-index:0;
+
+    animation:flotar linear infinite;
+}
+
+/* CORAZONES */
+
+.zona-corazones{
+    position:relative;
+
+    width:min(800px,90vw);
+    height:45vh;
+
+    margin-top:15px;
+}
+
+.corazon{
+    position:absolute;
+
+    width:60px;
+    height:60px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:transparent;
+
+    background:rgba(80,230,210,.035);
+
+    border:1px solid rgba(100,255,230,.12);
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.corazon:hover{
+    color:#83fff1;
+
+    background:rgba(80,230,210,.14);
+
+    box-shadow:0 0 30px rgba(0,230,210,.5);
+
+    transform:scale(1.15);
+}
+
+.corazon.encontrado{
+    color:#83fff1;
+
+    background:rgba(80,230,210,.2);
+
+    box-shadow:0 0 35px rgba(0,240,210,.7);
+
+    animation:golpe .5s;
+}
+
+.corazon1{
+    left:10%;
+    top:10%;
+}
+
+.corazon2{
+    right:12%;
+    top:45%;
+}
+
+.corazon3{
+    left:48%;
+    bottom:5%;
+}
+
+/* GIFS */
+
+.sorpresa img{
+    width:min(340px,78vw);
+    max-height:300px;
+
+    object-fit:contain;
+
+    display:block;
+
+    margin:22px auto;
+
+    border-radius:18px;
+
+    animation:aparecer .8s ease;
+}
+
+/* PUZZLE */
+
+.puzzle{
+    display:grid;
+
+    grid-template-columns:repeat(3,100px);
+    grid-template-rows:repeat(3,100px);
+
+    gap:4px;
+
+    margin:22px auto 10px;
+
+    padding:4px;
+
+    background:rgba(100,255,230,.12);
+
+    border-radius:12px;
+
+    width:max-content;
+}
+
+.pieza{
+    width:100px;
+    height:100px;
+
+    border:0;
+
+    cursor:pointer;
+
+    background-image:url("fotos/foto 3.png");
+
+    background-size:300px 300px;
+
+    background-repeat:no-repeat;
+
+    transition:.2s;
+
+    padding:0;
+}
+
+.pieza:hover{
+    filter:brightness(1.25);
+}
+
+.pieza.seleccionada{
+    outline:3px solid #83fff1;
+    transform:scale(.94);
+}
+
+/* MEMORIA */
+
+.memoria{
+    display:grid;
+
+    grid-template-columns:repeat(3,100px);
+
+    gap:12px;
+
+    margin:22px auto;
+
+    width:max-content;
+}
+
+.tarjeta{
+    width:100px;
+    height:100px;
+
+    border-radius:15px;
+
+    border:1px solid rgba(110,255,230,.18);
+
+    background:linear-gradient(
+        135deg,
+        #07333b,
+        #06231f
+    );
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:30px;
+
+    transition:.3s;
+}
+
+.tarjeta.visible,
+.tarjeta.encontrada{
+    background:rgba(40,180,160,.16);
+
+    box-shadow:0 0 20px rgba(0,220,200,.15);
+}
+
+/* GALERIA */
+
+.galeria{
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    gap:18px;
+
+    flex-wrap:wrap;
+
+    width:100%;
+    max-width:850px;
+
+    margin-top:25px;
+}
+
+.foto{
+    width:145px;
+    height:185px;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    cursor:pointer;
+
+    border:1px solid rgba(120,255,230,.18);
+
+    transition:.35s;
+}
+
+.foto:hover{
+    transform:translateY(-8px) rotate(-1deg);
+
+    box-shadow:
+    0 20px 45px rgba(0,210,200,.2);
+}
+
+.foto img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+/* VISOR */
+
+#visor{
+    position:fixed;
+    inset:0;
+
+    z-index:100;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(0,5,12,.94);
+
+    backdrop-filter:blur(15px);
+
+    opacity:0;
+    pointer-events:none;
+
+    transition:.4s;
+
+    padding:20px;
+}
+
+#visor.abierto{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.visor-contenido{
+    width:min(700px,90vw);
+    text-align:center;
+}
+
+#imagenVisor{
+    max-width:100%;
+    max-height:65vh;
+
+    border-radius:20px;
+
+    box-shadow:
+    0 0 60px rgba(0,220,200,.15);
+}
+
+/* OPCIONES */
+
+.opciones{
+    display:flex;
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    gap:15px;
+
+    margin-top:30px;
+}
+
+.opcion{
+    padding:16px 25px;
+
+    border-radius:18px;
+
+    border:1px solid rgba(120,255,230,.2);
+
+    background:rgba(255,255,255,.05);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-family:inherit;
+}
+
+.opcion:hover{
+    transform:translateY(-5px);
+
+    background:rgba(50,220,200,.12);
+}
+
+/* MUSICA */
+
+.disco{
+    width:140px;
+    height:140px;
+
+    margin:25px auto;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        #03131a 0 15%,
+        #0c6c68 16% 22%,
+        #03131a 23% 40%,
+        #0c6c68 41% 45%,
+        #03131a 46%
+    );
+
+    border:2px solid rgba(120,255,230,.3);
+}
+
+.disco.reproduciendo{
+    animation:girar 4s linear infinite;
+}
+
+/* FOTO PRINCIPAL */
+
+.foto-principal{
+    width:min(390px,85vw);
+    max-height:50vh;
+
+    object-fit:contain;
+
+    border-radius:22px;
+
+    margin-top:25px;
+
+    border:1px solid rgba(130,255,230,.25);
+
+    box-shadow:
+    0 0 70px rgba(0,220,200,.18);
+}
+
+/* PREGUNTAS */
+
+.progreso{
+    width:100%;
+    max-width:500px;
+
+    margin:25px auto;
+}
+
+#numeroPregunta{
+    display:block;
+    margin-bottom:10px;
+    opacity:.7;
+}
+
+.barra{
+    width:100%;
+    height:10px;
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+    overflow:hidden;
+}
+
+#barraProgreso{
+    width:0%;
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        #48e0cf,
+        #74a9ff
+    );
+
+    border-radius:20px;
+
+    transition:width .6s ease;
+}
+
+.respuestas{
+    display:flex;
+    flex-direction:column;
+
+    gap:12px;
+
+    width:100%;
+    max-width:550px;
+
+    margin:25px auto;
+}
+
+.respuesta{
+    padding:16px 20px;
+
+    border-radius:16px;
+
+    border:1px solid rgba(120,255,230,.16);
+
+    background:rgba(255,255,255,.045);
+
+    color:white;
+
+    font-family:Georgia,"Times New Roman",serif;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.respuesta:hover{
+    transform:translateY(-3px);
+
+    background:rgba(60,220,200,.12);
+
+    border-color:rgba(120,255,230,.35);
+}
+
+.respuesta.correcta{
+    background:rgba(50,220,180,.2);
+
+    border-color:#72ffe4;
+
+    transform:scale(1.02);
+}
+
+.respuesta.incorrecta{
+    background:rgba(255,255,255,.04);
+    opacity:.5;
+
+    transform:translateX(4px);
+}
+
+.respuesta:disabled{
+    cursor:default;
+}
+
+.mensaje-pregunta{
+    min-height:25px;
+
+    margin-top:12px;
+
+    color:#83fff1;
+
+    font-size:16px;
+}
+
+/* FOTO SECRETA */
+
+.imagen-secreta{
+    position:relative;
+
+    width:min(500px,85vw);
+
+    aspect-ratio:1/1;
+
+    margin:25px auto;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    background-image:url("fotos/foto 6.png");
+
+    background-size:cover;
+
+    background-position:center;
+
+    box-shadow:
+    0 0 40px rgba(0,220,200,.12);
+}
+
+.bloque{
+    position:absolute;
+
+    width:50%;
+    height:50%;
+
+    background:linear-gradient(
+        135deg,
+        #03151b,
+        #06332f
+    );
+
+    border:1px solid rgba(120,255,230,.08);
+
+    transition:
+    opacity .8s ease,
+    transform .8s ease;
+}
+
+.bloque1{
+    left:0;
+    top:0;
+}
+
+.bloque2{
+    right:0;
+    top:0;
+}
+
+.bloque3{
+    left:0;
+    bottom:0;
+}
+
+.bloque4{
+    right:0;
+    bottom:0;
+}
+
+.bloque5{
+    width:30%;
+    height:30%;
+
+    left:35%;
+    top:35%;
+
+    border-radius:50%;
+}
+
+.bloque.revelado{
+    opacity:0;
+
+    transform:scale(1.3);
+
+    pointer-events:none;
+}
+
+/* CARTA */
+
+.texto-carta{
+    min-height:250px;
+
+    font-size:19px;
+
+    line-height:1.9;
+
+    opacity:.92;
+
+    white-space:pre-line;
+}
+
+/* ANIMACIONES */
+
+@keyframes respirar{
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.08);
+    }
+}
+
+@keyframes golpe{
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.5);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+@keyframes aparecer{
+    from{
+        opacity:0;
+        transform:scale(.8);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+@keyframes flotar{
+    from{
+        transform:translateY(100vh);
+    }
+
+    to{
+        transform:translateY(-20vh);
+    }
+}
+
+@keyframes girar{
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* CELULAR */
+
+@media(max-width:600px){
+
+    .puzzle{
+        grid-template-columns:repeat(3,78px);
+        grid-template-rows:repeat(3,78px);
+    }
+
+    .pieza{
+        width:78px;
+        height:78px;
+        background-size:234px 234px;
+    }
+
+    .memoria{
+        grid-template-columns:repeat(3,78px);
+        gap:8px;
+    }
+
+    .tarjeta{
+        width:78px;
+        height:78px;
+    }
+
+    .foto{
+        width:115px;
+        height:150px;
+    }
+
+    .caja,
+    .carta,
+    .sorpresa{
+        padding:25px;
+    }
+
+    .texto,
+    .texto-carta{
+        font-size:17px;
+    }
+}
+
+
+/* PULIDO NUEVO: corazones mas dispersos */
+.corazon4{right:4%;top:8%;}
+.corazon5{left:28%;top:4%;}
+.corazon6{left:3%;top:54%;}
+.corazon7{right:27%;top:32%;}
+.corazon8{left:17%;bottom:3%;}
+.corazon9{right:45%;bottom:22%;}
+.corazon10{right:7%;bottom:6%;}
+
+/* RECOMPENSAS */
+.recompensa-juego{margin:24px auto 0;width:min(520px,88vw);padding:20px;border-radius:22px;background:linear-gradient(135deg,rgba(15,140,150,.18),rgba(40,90,255,.14));border:1px solid rgba(130,255,235,.24);box-shadow:0 0 35px rgba(0,230,210,.12);animation:aparecer .7s ease;}
+.recompensa-juego img{width:min(280px,75vw);max-height:240px;object-fit:contain;display:block;margin:0 auto 14px;border-radius:18px;}
+.recompensa-juego p{text-align:center;}
+
+/* JUEGO DE REFLEJOS */
+.reflejo-zona{position:relative;width:min(650px,90vw);height:330px;margin:25px auto;border-radius:25px;overflow:hidden;background:radial-gradient(circle,rgba(100,255,235,.09) 1px,transparent 1px) 0 0/22px 22px,#04141b;border:1px solid rgba(130,255,235,.25);box-shadow:inset 0 0 55px rgba(0,230,210,.1);}
+.reflejo-objetivo{position:absolute;width:72px;height:72px;border-radius:50%;cursor:pointer;background:radial-gradient(circle,#fff 0 8%,#83fff1 13%,rgba(70,220,200,.3) 40%,transparent 72%);box-shadow:0 0 15px #fff,0 0 35px rgba(100,255,240,.95),0 0 75px rgba(60,170,255,.7);animation:brilloObjetivo .75s infinite;}
+@keyframes brilloObjetivo{50%{transform:scale(1.2);box-shadow:0 0 25px #fff,0 0 55px rgba(100,255,240,1),0 0 100px rgba(60,170,255,.9);}}
+
+/* ESTRELLITA SUPER ILUMINADA */
+.estrellita-zona{position:relative;width:min(650px,90vw);height:350px;margin:25px auto;border-radius:28px;overflow:hidden;background:radial-gradient(circle at center,rgba(120,255,245,.13),transparent 25%),radial-gradient(circle at 30% 30%,rgba(70,170,255,.12),transparent 35%),#03131c;border:1px solid rgba(140,255,240,.3);box-shadow:inset 0 0 70px rgba(0,230,220,.14),0 0 45px rgba(0,220,210,.12);}
+.estrellita{position:absolute;width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:30px;color:#fff;cursor:pointer;text-shadow:0 0 8px #fff,0 0 18px #83fff1,0 0 38px #4beaff,0 0 75px #4beaff;filter:drop-shadow(0 0 16px #83fff1);animation:brillarEstrella 1s ease-in-out infinite;z-index:2;}
+.estrellita::before{content:"";position:absolute;width:105px;height:105px;border-radius:50%;background:radial-gradient(circle,rgba(130,255,245,.48),rgba(60,190,255,.18) 32%,transparent 70%);z-index:-1;animation:haloEstrella 1s ease-in-out infinite;}
+@keyframes brillarEstrella{50%{transform:scale(1.16) rotate(5deg);filter:brightness(1.5) drop-shadow(0 0 28px #83fff1);}}
+@keyframes haloEstrella{50%{transform:scale(1.2);opacity:1;}}
+
+/* PASTEL DECORADO */
+.pastel-bonito{position:relative;width:300px;height:245px;margin:30px auto;filter:drop-shadow(0 0 30px rgba(100,255,235,.35));cursor:pointer;}
+.plato-pastel{position:absolute;left:20px;bottom:8px;width:260px;height:30px;border-radius:50%;background:linear-gradient(#bffff3,#299a9b);box-shadow:0 0 28px rgba(100,255,240,.5);}
+.base-pastel{position:absolute;left:42px;bottom:30px;width:216px;height:112px;border-radius:20px 20px 28px 28px;background:linear-gradient(160deg,#29cdb0,#08747d);box-shadow:inset 0 8px 0 rgba(255,255,255,.18),0 0 35px rgba(70,255,220,.2);}
+.crema-pastel{position:absolute;left:32px;top:76px;width:236px;height:58px;border-radius:50%;background:linear-gradient(160deg,#e0fff9,#54d7c4);box-shadow:0 0 25px rgba(190,255,245,.55);}
+.velita-pastel{position:absolute;top:18px;width:16px;height:64px;border-radius:8px;background:repeating-linear-gradient(135deg,#effffb 0 8px,#55cdbd 8px 16px);box-shadow:0 0 14px rgba(140,255,245,.65);}
+.velita-pastel:nth-of-type(1){left:88px}.velita-pastel:nth-of-type(2){left:142px}.velita-pastel:nth-of-type(3){left:196px}
+.llama-pastel{position:absolute;width:20px;height:30px;top:-27px;left:-2px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#fff;box-shadow:0 0 12px #fff,0 0 28px #83fff1,0 0 50px #5ceaff;animation:llamaPastel .45s infinite alternate;}
+@keyframes llamaPastel{to{transform:rotate(-45deg) scale(1.18);}}
+.confeti-nuevo{position:fixed;top:-30px;width:10px;height:18px;z-index:999;pointer-events:none;animation:caerNuevo 3.5s linear forwards;}
+@keyframes caerNuevo{to{transform:translateY(115vh) rotate(900deg);opacity:0;}}
+.corazon-nuevo{position:fixed;bottom:-35px;z-index:998;pointer-events:none;font-size:30px;color:#83fff1;text-shadow:0 0 16px #83fff1;animation:subirNuevo 4s ease-out forwards;}
+@keyframes subirNuevo{to{transform:translateY(-110vh) translateX(var(--lado)) rotate(35deg);opacity:0;}}
+
+
+/* corazones mas separados */
+.corazon1{left:3%;top:7%;}.corazon2{right:3%;top:43%;}.corazon3{left:46%;bottom:3%;}.corazon4{right:9%;top:7%;}.corazon5{left:22%;top:31%;}.corazon6{left:2%;top:70%;}.corazon7{right:29%;top:21%;}.corazon8{left:12%;bottom:7%;}.corazon9{right:47%;bottom:25%;}.corazon10{right:11%;bottom:7%;}
+
+.stars-photo{position:fixed;left:0;top:0;z-index:9999;pointer-events:none;font-size:22px;color:#fff;text-shadow:0 0 8px #fff,0 0 20px #83fff1,0 0 35px #4beaff;animation:starsPhoto 1.8s ease-out forwards;}
+@keyframes starsPhoto{from{transform:translate(50vw,50vh) scale(.2) rotate(0);opacity:1;}to{transform:translate(var(--sx),var(--sy)) scale(1.2) rotate(220deg);opacity:0;}}
+</style>
+</head>
+
+<body>
+
+<!-- INICIO -->
+
+<section class="pantalla activa" id="inicio">
+
+    <div class="orbe">
+        <span>♡</span>
+    </div>
+
+    <h1>Para ti♥</h1>
+
+    <p class="subtitulo">
+
+        Ajas.
+
+        <br>
+
+        hice esto para ti, amol.
+
+        <br><br>
+
+    </p>
+
+    <button
+    class="boton"
+    onclick="irA('inicio','introduccion')">
+
+        abrir mi regalo
+
+    </button>
+
+</section>
+
+
+<!-- INTRODUCCION -->
+
+<section class="pantalla" id="introduccion">
+
+    <div class="caja">
+
+        <h2>Antes de empezar...</h2>
+
+        <p class="texto">
+
+            Bueno, primero que nada...
+            Feliiiiz cumpleañooos
+
+            <br><br>
+
+            Quería hacerte algo diferente.
+            No solamente escribirte un mensaje y ya,
+            sino hacer algo que pudieras divertirte?,
+            no se si essa era la palabra pero si.
+
+            <br><br>
+
+            Con unos jueguitos
+            y algunas cosas que fui poniendo por ahí.
+
+            <br><br>
+
+            (づ｡◕‿‿◕｡)づ ♥
+
+            <br><br>
+
+            La verdad sí me tardé haciendo esto,
+            así que espero que te guste aunque sea
+            un poquito.
+
+            <br><br>
+
+            Y si algo sale mal...
+
+            <br>
+
+            hacemos como que nunca pasó jejeje.
+
+        </p>
+
+        <button
+        class="boton"
+        onclick="irA('introduccion','corazones')">
+
+            Vamoshhhh.
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- CORAZONES -->
+
+<section class="pantalla" id="corazones">
+
+    <h2>Juli te amu.</h2>
+
+    <p class="subtitulo">
+
+        Preciona los tres corazoncitos.
+
+        <br>
+
+        ( •̀ᴗ•́ )و ̑̑
+
+  </p>
+
+    <div class="zona-corazones">
+
+        <div
+        class="corazon corazon1"
+        onclick="encontrarCorazon(this)">
+            ♥
+        </div>
+
+        <div
+        class="corazon corazon2"
+        onclick="encontrarCorazon(this)">
+            ♥
+        </div>
+
+        <div
+        class="corazon corazon3"
+        onclick="encontrarCorazon(this)">
+            ♥
+        </div>
+
+        <div class="corazon corazon4" onclick="encontrarCorazon(this)">♥</div>
+        <div class="corazon corazon5" onclick="encontrarCorazon(this)">♥</div>
+        <div class="corazon corazon6" onclick="encontrarCorazon(this)">♥</div>
+        <div class="corazon corazon7" onclick="encontrarCorazon(this)">♥</div>
+        <div class="corazon corazon8" onclick="encontrarCorazon(this)">♥</div>
+        <div class="corazon corazon9" onclick="encontrarCorazon(this)">♥</div>
+        <div class="corazon corazon10" onclick="encontrarCorazon(this)">♥</div>
+
+    </div>
+
+    <p id="contadorCorazones">
+        0 / 10
+    </p>
+
+<div id="recompensaCorazones"></div>
+
+</section>
+
+
+<!-- SORPRESA 1 -->
+
+<section class="pantalla" id="sorpresa1">
+
+    <div class="sorpresa">
+
+        <h2>Weeno.</h2>
+
+        <p class="texto">
+
+            iii, esa era easy.
+
+            <br><br>
+
+            Tampoco te iba a poner algo
+            imposible desde el principio.
+            (˵ •̀ ᴗ - ˵ ) ✧
+
+            <br><br>
+
+            Sigue, anol.
+
+        </p>
+
+        <img
+        src="GIFs/SORPRESA 1.webp"
+        alt="Sorpresa 1">
+
+        <button
+        class="boton"
+        onclick="irA('sorpresa1','puzzle')">
+
+            continuar
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- PUZZLE -->
+
+<section class="pantalla" id="puzzle">
+
+    <div class="caja">
+
+        <h2>Ahoraa</h2>
+
+        <p class="subtitulo">
+
+            Te dejé un pequeño rompecabezas porque sí.
+
+            <br><br>
+
+            Te toca acomodarlo.
+
+            <br>
+
+            A ver cuánto tardas jajaja.
+
+        </p>
+
+        <div
+        class="puzzle"
+        id="puzzleTablero">
+        </div>
+
+        <p id="puzzleInfo">
+            0 / 9 piezas en su lugar
+        </p>
+
+        <button
+        class="boton"
+        id="botonPuzzle"
+        disabled>
+
+            todavía no
+
+        </button>
+
+    </div>
+
+<div id="recompensaPuzzle"></div>
+
+</section>
+
+
+<!-- SORPRESA 2 -->
+
+<section class="pantalla" id="sorpresa2">
+
+    <div class="sorpresa">
+
+        <h2>ozioziozi</h2>
+
+        <p class="texto">
+
+            Pues ya que llegaste hasta aca.
+
+            <br><br>
+
+            todavía falta. unu
+
+            <br><br>
+
+            
+            No musho la veda.
+            
+
+            <br><br>
+
+            Así que sigue, mi vida.
+
+        </p>
+
+        <img
+        src="GIFs/SORPRESA 2.webp"
+        alt="Sorpresa 2">
+
+        <button
+        class="boton"
+        onclick="irA('sorpresa2','memoria')">
+
+            siguiente
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- MEMORIA -->
+
+<section class="pantalla" id="memoria">
+
+    <div class="caja">
+
+        <h2>A ver qué tanto recuerdas</h2>
+
+        <p class="subtitulo">
+
+            Encuentra las parejas.
+
+            <br>
+
+            Esta easy, si no lo haces en fa eres nuv.
+
+        </p>
+
+        <div
+        class="memoria"
+        id="tableroMemoria">
+        </div>
+
+        <button
+        class="boton"
+        id="botonMemoria"
+        disabled>
+
+            encuentra las parejas
+
+        </button>
+
+    </div>
+
+<div id="recompensaMemoria"></div>
+
+</section>
+
+
+<!-- SORPRESA 3 -->
+
+<section class="pantalla" id="sorpresa3">
+
+    <div class="sorpresa">
+
+        <h2>Otia</h2>
+
+        <p class="texto">
+
+            Que pro.
+
+            <br><br>
+
+            Y ahora sí viene una de las partes
+            que más quería poner.
+
+            <br><br>
+
+            jejejeje
+
+        </p>
+
+        <img
+        src="GIFs/SORPRESA 3.webp"
+        alt="Sorpresa 3">
+
+        <p class="texto">
+
+            Todavía falta una parte másh.
+
+        </p>
+
+        <button
+        class="boton"
+        onclick="irA('sorpresa3','galeria')">
+
+            ver recuerdos
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- GALERIA -->
+
+<section class="pantalla" id="galeria">
+
+    <div class="caja">
+
+        <h2>Unas imangencitas. owo</h2>
+
+        <p class="subtitulo">
+
+            Toca una foto.
+
+            <br>
+
+            Algunas tienen algo que decir.
+
+        </p>
+
+        <div class="galeria">
+
+            <div
+            class="foto"
+            onclick="abrirFoto(
+            'fotos/foto 1.png',
+            'Esta es especial. Es la unica que tengo y simplmente me encanta.'
+            )">
+
+                <img
+                src="fotos/foto 1.png"
+                alt="Foto 1">
+
+            </div>
+
+            <div
+            class="foto"
+            onclick="abrirFoto(
+            'fotos/foto 2.png',
+            'Feliz cumple Juliiiiiiiiiii.'
+            )">
+
+                <img
+                src="fotos/foto 2.png"
+                alt="Foto 2">
+
+            </div>
+
+            <div
+            class="foto"
+            onclick="abrirFoto(
+            'fotos/foto 3.png',
+            'Esta es la misma que tuviste que armar en el rompecabezas JAJA.'
+            )">
+
+                <img
+                src="fotos/foto 3.png"
+                alt="Foto 3">
+
+            </div>
+
+            <div
+            class="foto"
+            onclick="abrirFoto(
+            'fotos/foto 4.png',
+            'Ti amuuuuu.'
+            )">
+
+                <img
+                src="fotos/foto 4.png"
+                alt="Foto 4">
+
+            </div>
+
+            <div
+            class="foto"
+            onclick="abrirFoto(
+            'fotos/foto 5.png',
+            'Y esta jjejeje.'
+            )">
+
+                <img
+                src="fotos/foto 5.png"
+                alt="Foto 5">
+
+            </div>
+
+        </div>
+
+        <button
+        class="boton"
+        onclick="irA('galeria','eleccion')">
+
+            hay algo más
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- VISOR -->
+
+<div
+id="visor"
+onclick="cerrarFoto(event)">
+
+    <div
+    class="visor-contenido"
+    onclick="event.stopPropagation()">
+
+        <img
+        id="imagenVisor"
+        src=""
+        alt="Foto">
+
+        <p
+        id="textoVisor"
+        class="subtitulo">
+        </p>
+
+        <button
+        class="boton"
+        onclick="estrellasFoto(); cerrarFoto()">
+
+            apretar para que salgan estrellas
+
+        </button>
+
+        <button
+        class="boton"
+        onclick="cerrarFoto()">
+
+            cerrar
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- JUEGO DE REFLEJOS -->
+<section class="pantalla" id="reflejosNuevo">
+    <div class="caja">
+        <h2>Un jueguito mas.</h2>
+        <p class="subtitulo">
+            Toca el circulito brillante 6 veces.
+            <br>
+            A ver qué tan rapida eres.
+        </p>
+        <p id="contadorReflejoNuevo">0 / 6</p>
+        <div class="reflejo-zona" id="zonaReflejoNuevo">
+            <div class="reflejo-objetivo" id="objetivoReflejoNuevo" onclick="tocarReflejoNuevo()"></div>
+        </div>
+        <div id="recompensaReflejosNuevo"></div>
+    </div>
+</section>
+
+<!-- JUEGO DE LA ESTRELLITA -->
+<section class="pantalla" id="estrellaNuevo">
+    <div class="caja">
+        <h2>Ahora una estrellita.</h2>
+        <p class="subtitulo">
+            Atrapala 7 veces.
+            <br>
+            Y ahora sí se va a mover jejeje.
+        </p>
+        <p id="contadorEstrellitaNuevo">0 / 7</p>
+        <div class="estrellita-zona" id="zonaEstrellitaNuevo">
+            <div class="estrellita" id="estrellitaNuevo" onclick="atraparEstrellitaNuevo()">✦</div>
+        </div>
+        <div id="recompensaEstrellitaNuevo"></div>
+    </div>
+</section>
+
+<!-- ELECCION -->
+
+<section class="pantalla" id="eleccion">
+
+    <div class="caja">
+
+        <h2>Ahora tú eliges</h2>
+
+        <p class="texto">
+
+            Ya llegaste hasta acá,
+            así que ahora puedes decidir
+            qué quieres ver primero.
+
+        </p>
+
+        <div class="opciones">
+
+            <button
+            class="opcion"
+            onclick="irA('eleccion','mensajeExtra')">
+
+                algo que quiero decirte
+
+            </button>
+
+            <button
+            class="opcion"
+            onclick="irA('eleccion','musica')">
+
+                una canción
+
+            </button>
+
+            <button
+            class="opcion"
+            onclick="irA('eleccion','preguntas')">
+
+                jugar preguntas
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- MENSAJE EXTRA -->
+
+<section class="pantalla" id="mensajeExtra">
+
+    <div class="caja">
+
+        <h2>Esto también</h2>
+
+        <p class="texto">
+
+            No sé muy bien cómo decirte todo esto
+            sin terminar escribiendo una biblia JAJA.
+
+            <br><br>
+
+            Pero pues voy a intentarlo.
+
+            <br><br>
+
+            Hice todo esto porque quería darte algo
+            que fuera diferente.
+
+            <br><br>
+
+            Algo que no solamente vieras una vez
+            y ya.
+
+            <br><br>
+
+            Algo que te demostraram cunato te
+            amuuu.
+
+            <br><br>
+
+            Y pues...
+
+            <br>
+
+            aquí estamos UWU.
+
+        </p>
+
+        <button
+        class="boton"
+        onclick="irA('mensajeExtra','musica')">
+
+            ahora sí, la canción
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- MUSICA -->
+
+<section class="pantalla" id="musica">
+
+    <div class="caja">
+
+        <h2>Esta canción</h2>
+
+        <p class="texto">
+
+            No sabía muy bien cuál poner,
+            pero terminé escogiendo esta.
+
+            <br><br>
+
+            Me la pase una hora escuchando
+            canciones, fue la que mas me gusto.
+
+            <br><br>
+
+            Así que escúchala y ya.
+
+        </p>
+
+        <div
+        class="disco"
+        id="disco">
+        </div>
+
+        <button
+        class="boton"
+        id="botonMusica"
+        onclick="reproducirMusica()">
+
+            ▶ reproducir
+
+        </button>
+
+        <button
+        class="boton"
+        id="continuarMusica"
+        onclick="irA('musica','principal')"
+        style="display:none;">
+
+            ahora sí
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<audio
+id="cancion"
+src="musica/cancion.mp3">
+</audio>
+
+
+<!-- FOTO PRINCIPAL -->
+
+<section class="pantalla" id="principal">
+
+    <div class="caja">
+
+        <h2>Y esta...</h2>
+
+        <p class="texto">
+
+            Esta quería dejarla para este momento.
+
+            <br><br>
+
+            De todas las fotos,
+            esta es la que más quería
+            que estuviera aquí.
+
+            <br><br>
+
+            Es especial para mí y ademas es la
+            unica que tengo. unu
+
+        </p>
+
+        <img
+        class="foto-principal"
+        src="fotos/foto 1.png"
+        alt="Foto especial">
+
+        <button
+        class="boton"
+        onclick="irA('principal','preguntas')">
+
+            continuar
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- PREGUNTAS -->
+
+<section class="pantalla" id="preguntas">
+
+    <div class="caja">
+
+        <h2>¿Sabes que estoy muy enamorada de ti?</h2>
+
+        <p
+        class="subtitulo"
+        id="textoPregunta">
+
+            Okeeey, ahoraaaaaa.
+
+            <br><br>
+
+            Son 5 preguntas.
+
+            <br>
+
+            Cada respuesta correcta va a revelar
+            un poquito de la imagen con mas aura que he visto.(ouo)
+
+        </p>
+
+        <div class="progreso">
+
+            <span id="numeroPregunta">
+                Pregunta 1 de 5
+            </span>
+
+            <div class="barra">
+
+                <div
+                id="barraProgreso">
+                </div>
+
+            </div>
+
+        </div>
+
+        <div
+        id="respuestas"
+        class="respuestas">
+        </div>
+
+        <!-- AQUÍ SE USA FOTO 6 -->
+
+        <div
+        class="imagen-secreta"
+        id="imagenSecreta">
+
+            <div class="bloque bloque1"></div>
+            <div class="bloque bloque2"></div>
+            <div class="bloque bloque3"></div>
+            <div class="bloque bloque4"></div>
+            <div class="bloque bloque5"></div>
+
+        </div>
+
+        <p id="contadorAciertos">
+            0 / 5 correctas
+        </p>
+
+        <p
+        id="mensajePregunta"
+        class="mensaje-pregunta">
+        </p>
+
+        <button
+        class="boton"
+        id="botonSiguiente"
+        style="display:none;">
+
+            siguiente
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- SORPRESA 4 -->
+
+<section class="pantalla" id="sorpresa4">
+
+    <div class="sorpresa">
+
+        <h2>Ok...</h2>
+
+        <p class="texto">
+
+            Ya estamos llegando al final.
+
+            <br><br>
+
+            Y ahora sí viene la parte
+            que quería dejar hasta el último.
+
+        </p>
+
+        <img
+        src="GIFs/SORPRESA 4.webp"
+        alt="Sorpresa 4">
+
+        <button
+        class="boton"
+        onclick="irA('sorpresa4','carta')">
+
+            leer
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- PASTEL FINAL INTERACTIVO -->
+<section class="pantalla" id="pastelNuevo">
+    <div class="caja">
+        <h2>Una ultima cosita.</h2>
+        <p class="subtitulo">
+            Toca el pastel.
+        </p>
+        <div class="pastel-bonito" onclick="celebrarPastelNuevo()">
+            <div class="plato-pastel"></div>
+            <div class="base-pastel"></div>
+            <div class="crema-pastel"></div>
+            <div class="velita-pastel"><div class="llama-pastel"></div></div>
+            <div class="velita-pastel"><div class="llama-pastel"></div></div>
+            <div class="velita-pastel"><div class="llama-pastel"></div></div>
+        </div>
+        <button class="boton" onclick="celebrarPastelNuevo()">tocar el pastel</button>
+        <div id="mensajePastelNuevo"></div>
+    </div>
+</section>
+
+
+<!-- CARTA -->
+
+<section class="pantalla" id="carta">
+
+    <div class="carta">
+
+        <h2>Para ti</h2>
+
+        <div
+        class="texto-carta"
+        id="textoFinal">
+        </div>
+
+        <button
+        class="boton"
+        id="botonFinal"
+        onclick="irA('carta','sorpresa5')"
+        style="display:none;">
+
+            hay algo al final
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- SORPRESA FINAL -->
+
+<section class="pantalla" id="sorpresa5">
+
+    <div class="sorpresa">
+
+        <h2>Ahora sí...</h2>
+
+        <img
+        src="GIFs/SORPRESA 5.webp"
+        alt="Sorpresa 5">
+
+        <button class="boton" onclick="irA('sorpresa5','reflejosNuevo')">
+            seguir jugando
+        </button>
+
+        <p class="texto">
+
+            Ya llegaste al final anol.
+
+            <br><br>
+
+            Aqui yia termina,
+            ya no hay otra pantalla escondida.
+
+            <br><br>
+
+            Solo quería decirte una última cosa.
+
+            <br><br>
+
+            Espero que te haya gustado
+            este pequeño regalo, pol favol por que me metieron virus jajaja.
+
+            <br><br>
+
+            Lo hice con muchísimo cariño para ti.
+
+            <br><br>
+
+            Desgraciadamente estas bien pinche
+            lejos y no te puedo dar algo mas, perdoname...
+
+            <br><br>
+
+            Espero algun dia te pueda regalar ago en persona jeje.
+
+            <br><br>
+
+            Te quiero muchísimo, feliz cumple.
+
+            <br><br>
+
+            FIN UWU.
+
+        </p>
+
+        <button
+        class="boton"
+        onclick="reiniciar()">
+
+            volver al inicio
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<script>
+
+/* =====================================================
+   CAMBIO DE PANTALLAS
+===================================================== */
+
+function irA(actual,siguiente){
+
+    const pantallaActual =
+    document.getElementById(actual);
+
+    const pantallaSiguiente =
+    document.getElementById(siguiente);
+
+    if(!pantallaActual || !pantallaSiguiente){
+        return;
+    }
+
+    pantallaActual.classList.remove("activa");
+
+    setTimeout(function(){
+
+        pantallaSiguiente.classList.add("activa");
+
+        if(siguiente==="preguntas"){
+            iniciarPreguntas();
+        }
+
+        if(siguiente==="carta"){
+            escribirCarta();
+        }
+
+    },300);
+}
+
+
+/* =====================================================
+   PARTICULAS
+===================================================== */
+
+for(let i=0;i<70;i++){
+
+    const p=document.createElement("div");
+
+    p.className="particula";
+
+    p.style.left=Math.random()*100+"vw";
+
+    p.style.animationDuration=
+    (5+Math.random()*10)+"s";
+
+    p.style.animationDelay=
+    Math.random()*8+"s";
+
+    document.body.appendChild(p);
+}
+
+
+/* =====================================================
+   CORAZONES
+===================================================== */
+
+let corazonesEncontrados=0;
+
+function encontrarCorazon(elemento){
+
+    if(
+        elemento.classList.contains("encontrado")
+    ){
+        return;
+    }
+
+    elemento.classList.add("encontrado");
+
+    corazonesEncontrados++;
+
+    document.getElementById(
+        "contadorCorazones"
+    ).textContent=
+    corazonesEncontrados+" / 10";
+
+    if(corazonesEncontrados===10){
+
+        setTimeout(function(){
+
+            irA(
+                "corazones",
+                "sorpresa1"
+            );
+
+        },900);
+    }
+}
+
+
+/* =====================================================
+   ROMPECABEZAS
+===================================================== */
+
+const ordenCorrecto=[
+    0,1,2,
+    3,4,5,
+    6,7,8
+];
+
+let piezas=[
+    0,1,2,
+    3,4,5,
+    6,7,8
+];
+
+let primeraPieza=null;
+
+function mezclarPuzzle(){
+
+    do{
+
+        piezas.sort(
+            ()=>Math.random()-.5
+        );
+
+    }while(
+        piezas.every(
+            (valor,indice)=>
+            valor===ordenCorrecto[indice]
+        )
+    );
+}
+
+mezclarPuzzle();
+
+function crearPuzzle(){
+
+    const tablero=
+    document.getElementById(
+        "puzzleTablero"
+    );
+
+    tablero.innerHTML="";
+
+    const tamano=
+    window.innerWidth<=600
+    ?78
+    :100;
+
+    piezas.forEach(
+        function(posicion,indice){
+
+            const pieza=
+            document.createElement(
+                "button"
+            );
+
+            pieza.className="pieza";
+
+            const fila=
+            Math.floor(posicion/3);
+
+            const columna=
+            posicion%3;
+
+            pieza.style.backgroundSize=
+            (tamano*3)+"px "+
+            (tamano*3)+"px";
+
+            pieza.style.backgroundPosition=
+            "-"+
+            (columna*tamano)+"px "+
+            "-"+
+            (fila*tamano)+"px";
+
+            pieza.onclick=function(){
+
+                seleccionarPieza(indice);
+
+            };
+
+            tablero.appendChild(pieza);
+
+        }
+    );
+}
+
+function seleccionarPieza(indice){
+
+    if(primeraPieza===null){
+
+        primeraPieza=indice;
+
+        document
+        .getElementById("puzzleTablero")
+        .children[indice]
+        .classList
+        .add("seleccionada");
+
+        return;
+    }
+
+    if(primeraPieza===indice){
+
+        primeraPieza=null;
+
+        crearPuzzle();
+
+        return;
+    }
+
+    const temporal=
+    piezas[primeraPieza];
+
+    piezas[primeraPieza]=
+    piezas[indice];
+
+    piezas[indice]=
+    temporal;
+
+    primeraPieza=null;
+
+    crearPuzzle();
+
+    revisarPuzzle();
+}
+
+function revisarPuzzle(){
+
+    let correctas=0;
+
+    for(let i=0;i<9;i++){
+
+        if(
+            piezas[i]===
+            ordenCorrecto[i]
+        ){
+            correctas++;
+        }
+    }
+
+    document.getElementById(
+        "puzzleInfo"
+    ).textContent=
+    correctas+" / 9 piezas en su lugar";
+
+    if(correctas===9){
+
+        document.getElementById(
+            "puzzleInfo"
+        ).textContent=
+        "Rompecabezas completado.";
+
+        const boton=
+        document.getElementById(
+            "botonPuzzle"
+        );
+
+        boton.disabled=false;
+
+        boton.textContent="continuar";
+
+        boton.onclick=function(){
+
+            irA(
+                "puzzle",
+                "sorpresa2"
+            );
+
+        };
+    }
+}
+
+crearPuzzle();
+
+
+/* =====================================================
+   MEMORIA
+===================================================== */
+
+const simbolos=[
+    "✯","✯",
+    "♡","♡",
+    "❀","❀"
+];
+
+let cartas=[...simbolos];
+
+cartas.sort(
+    ()=>Math.random()-.5
+);
+
+let primeraCarta=null;
+let bloqueado=false;
+let parejas=0;
+
+function crearMemoria(){
+
+    const tablero=
+    document.getElementById(
+        "tableroMemoria"
+    );
+
+    tablero.innerHTML="";
+
+    cartas.forEach(
+        function(valor){
+
+            const carta=
+            document.createElement(
+                "button"
+            );
+
+            carta.className="tarjeta";
+
+            carta.textContent="?";
+
+            carta.onclick=function(){
+
+                voltearCarta(
+                    carta,
+                    valor
+                );
+
+            };
+
+            tablero.appendChild(carta);
+
+        }
+    );
+}
+
+function voltearCarta(
+    carta,
+    valor
+){
+
+    if(
+        bloqueado ||
+        carta.classList.contains("visible") ||
+        carta.classList.contains("encontrada")
+    ){
+        return;
+    }
+
+    carta.classList.add("visible");
+
+    carta.textContent=valor;
+
+    if(primeraCarta===null){
+
+        primeraCarta={
+            carta:carta,
+            valor:valor
+        };
+
+        return;
+    }
+
+    bloqueado=true;
+
+    if(primeraCarta.valor===valor){
+
+        primeraCarta.carta
+        .classList
+        .add("encontrada");
+
+        carta.classList.add("encontrada");
+
+        parejas++;
+
+        primeraCarta=null;
+
+        bloqueado=false;
+
+        if(parejas===3){
+
+            const boton=
+            document.getElementById(
+                "botonMemoria"
+            );
+
+            boton.disabled=false;
+
+            boton.textContent="continuar";
+
+            boton.onclick=function(){
+
+                irA(
+                    "memoria",
+                    "sorpresa3"
+                );
+
+            };
+        }
+
+    }else{
+
+        const anterior=
+        primeraCarta.carta;
+
+        setTimeout(
+            function(){
+
+                anterior
+                .classList
+                .remove("visible");
+
+                carta
+                .classList
+                .remove("visible");
+
+                anterior.textContent="?";
+                carta.textContent="?";
+
+                primeraCarta=null;
+                bloqueado=false;
+
+            },
+            700
+        );
+    }
+}
+
+crearMemoria();
+
+
+/* =====================================================
+   VISOR
+===================================================== */
+
+function abrirFoto(
+    imagen,
+    texto
+){
+
+    document.getElementById(
+        "imagenVisor"
+    ).src=imagen;
+
+    document.getElementById(
+        "textoVisor"
+    ).textContent=texto;
+
+    document.getElementById(
+        "visor"
+    ).classList.add("abierto");
+}
+
+function cerrarFoto(event){
+
+    if(
+        event &&
+        event.target.id!=="visor"
+    ){
+        return;
+    }
+
+    document.getElementById(
+        "visor"
+    ).classList.remove("abierto");
+}
+
+
+/* estrellas al presionar el boton de las fotos */
+function estrellasFoto(){
+    for(let i=0;i<45;i++){
+        const e=document.createElement("span");
+        e.className="stars-photo";
+        e.textContent="✦";
+        e.style.setProperty("--sx",(Math.random()*100-50)+"vw");
+        e.style.setProperty("--sy",(Math.random()*100-50)+"vh");
+        e.style.animationDelay=(Math.random()*.35)+"s";
+        document.body.appendChild(e);
+        setTimeout(()=>e.remove(),2300);
+    }
+}
+
+/* =====================================================
+   MUSICA
+===================================================== */
+
+const cancion=
+document.getElementById(
+    "cancion"
+);
+
+function reproducirMusica(){
+
+    cancion.play().then(function(){
+
+        document.getElementById(
+            "disco"
+        ).classList.add(
+            "reproduciendo"
+        );
+
+        document.getElementById(
+            "botonMusica"
+        ).textContent=
+        "♫ reproduciendo";
+
+        document.getElementById(
+            "continuarMusica"
+        ).style.display=
+        "inline-block";
+
+    }).catch(function(){
+
+        alert(
+            "No se pudo reproducir la canción. Revisa que el archivo se llame exactamente cancion.mp3 y esté dentro de la carpeta musica."
+        );
+
+    });
+}
+
+
+/* =====================================================
+   PREGUNTAS
+===================================================== */
+
+const preguntas=[
+
+    {
+        pregunta:
+        "¿Donde nos conocimos uwu?",
+
+        respuestas:[
+            "en realidad con conocimos hace 67mil años, cuando yio era un dinosaurio rex y tu una larva ñiñiñi",
+            "Braw stars bodrio",
+            "en robloxiniii"
+        ],
+
+        correcta:1
+    },
+
+    {
+        pregunta:
+        "¿me amas?",
+
+        respuestas:[
+            "si, un muchote",
+            "no, asco ueeee",
+            "zi"
+        ],
+
+        correcta:0
+    },
+
+    {
+        pregunta:
+        "¿cual fue la primer cancion que te dedique?",
+
+        respuestas:[
+            "love you to death",
+            "amor de siempre",
+            "cariño"
+        ],
+
+        correcta:1
+    },
+
+    {
+        pregunta:
+        "¿Que crees que es lo que mas me gusta de ti?",
+
+        respuestas:[
+            "la voz uwu(me etsita jsjsjs)",
+            "todo",
+            "La forma de ser y la carita owo"
+        ],
+
+        correcta:1
+    },
+
+    {
+        pregunta:
+        "Y esta es la más importante... ¿Cuanto cuesta el yupi de cerdo de la carniceria chapala?",
+
+        respuestas:[
+            "37 pesos",
+            "49 pesos",
+            "67 pesos"
+        ],
+
+        correcta:2
+    }
+
+];
+
+let preguntaActual=0;
+let aciertos=0;
+let respondida=false;
+
+function iniciarPreguntas(){
+
+    preguntaActual=0;
+    aciertos=0;
+    respondida=false;
+
+    document
+    .querySelectorAll(".bloque")
+    .forEach(
+        function(bloque){
+
+            bloque
+            .classList
+            .remove("revelado");
+
+        }
+    );
+
+    mostrarPregunta();
+}
+
+function mostrarPregunta(){
+
+    respondida=false;
+
+    const pregunta=
+    preguntas[preguntaActual];
+
+    document.getElementById(
+        "numeroPregunta"
+    ).textContent=
+    "Pregunta "+
+    (preguntaActual+1)+
+    " de 5";
+
+    document.getElementById(
+        "barraProgreso"
+    ).style.width=
+    (
+        preguntaActual/
+        preguntas.length*
+        100
+    )+"%";
+
+    document.getElementById(
+        "textoPregunta"
+    ).textContent=
+    pregunta.pregunta;
+
+    document.getElementById(
+        "contadorAciertos"
+    ).textContent=
+    aciertos+" / 5 correctas";
+
+    document.getElementById(
+        "mensajePregunta"
+    ).textContent="";
+
+    const respuestas=
+    document.getElementById(
+        "respuestas"
+    );
+
+    respuestas.innerHTML="";
+
+    pregunta.respuestas.forEach(
+        function(texto,indice){
+
+            const boton=
+            document.createElement(
+                "button"
+            );
+
+            boton.className="respuesta";
+
+            boton.textContent=texto;
+
+            boton.onclick=function(){
+
+                responder(
+                    indice,
+                    boton
+                );
+
+            };
+
+            respuestas.appendChild(boton);
+        }
+    );
+
+    document.getElementById(
+        "botonSiguiente"
+    ).style.display="none";
+}
+
+function responder(
+    indice,
+    boton
+){
+
+    if(respondida){
+        return;
+    }
+
+    respondida=true;
+
+    const pregunta=
+    preguntas[preguntaActual];
+
+    const botones=
+    document.querySelectorAll(
+        ".respuesta"
+    );
+
+    botones.forEach(
+        function(b){
+            b.disabled=true;
+        }
+    );
+
+    if(
+        indice===
+        pregunta.correcta
+    ){
+
+        boton
+        .classList
+        .add("correcta");
+
+        aciertos++;
+
+        revelarBloque();
+
+        document.getElementById(
+            "mensajePregunta"
+        ).textContent=
+        "shiii era amol.";
+
+    }else{
+
+        boton
+        .classList
+        .add("incorrecta");
+
+        botones[
+            pregunta.correcta
+        ]
+        .classList
+        .add("correcta");
+
+        document.getElementById(
+            "mensajePregunta"
+        ).textContent=
+        "No era esa nuv JAJA.";
+    }
+
+    document.getElementById(
+        "contadorAciertos"
+    ).textContent=
+    aciertos+" / 5 correctas";
+
+    const siguiente=
+    document.getElementById(
+        "botonSiguiente"
+    );
+
+    siguiente.style.display=
+    "inline-block";
+
+    if(
+        preguntaActual===
+        preguntas.length-1
+    ){
+
+        siguiente.textContent=
+        "ver la sorpresa";
+
+    }else{
+
+        siguiente.textContent=
+        "siguiente";
+    }
+
+    siguiente.onclick=function(){
+
+        siguientePregunta();
+
+    };
+}
+
+function revelarBloque(){
+
+    const bloques=
+    document.querySelectorAll(
+        ".bloque"
+    );
+
+    const bloque=
+    bloques[aciertos-1];
+
+    if(bloque){
+
+        bloque
+        .classList
+        .add("revelado");
+
+    }
+}
+
+function siguientePregunta(){
+
+    if(
+        preguntaActual===
+        preguntas.length-1
+    ){
+
+        terminarPreguntas();
+
+        return;
+    }
+
+    preguntaActual++;
+
+    mostrarPregunta();
+}
+
+function terminarPreguntas(){
+
+    document.getElementById(
+        "numeroPregunta"
+    ).textContent=
+    "¡jejejej!";
+
+    document.getElementById(
+        "barraProgreso"
+    ).style.width="100%";
+
+    document.getElementById(
+        "textoPregunta"
+    ).textContent=
+    "Carniceria chapala guuud.";
+
+    document.getElementById(
+        "respuestas"
+    ).innerHTML="";
+
+    document.getElementById(
+        "contadorAciertos"
+    ).textContent=
+    aciertos+" / 5 correctas";
+
+    document.getElementById(
+        "mensajePregunta"
+    ).textContent=
+    aciertos===5
+    ?
+    "NOOO, las acertaste todas JAJA."
+    :
+    "Llegaste hasta el final UWU.";
+
+    document.getElementById(
+        "botonSiguiente"
+    ).textContent=
+    "continuar";
+
+    document.getElementById(
+        "botonSiguiente"
+    ).onclick=function(){
+
+        irA(
+            "preguntas",
+            "sorpresa4"
+        );
+
+    };
+
+    /*
+       Si acierta todas, nos aseguramos de que
+       FOTO 6 quede completamente descubierta.
+    */
+
+    if(aciertos===5){
+
+        document
+        .querySelectorAll(".bloque")
+        .forEach(
+            function(bloque){
+
+                bloque
+                .classList
+                .add("revelado");
+
+            }
+        );
+    }
+}
+
+
+
+
+/* =====================================================
+   NUEVOS JUEGOS Y RECOMPENSAS
+===================================================== */
+function mostrarRecompensaNueva(id,gif,texto){
+    const caja=document.getElementById(id);
+    if(!caja)return;
+    caja.innerHTML=`<div class="recompensa-juego"><img src="${gif}" alt="Sorpresa"><p>${texto}</p></div>`;
+}
+
+/* Recompensa de corazones */
+const encontrarCorazonOriginal=encontrarCorazon;
+encontrarCorazon=function(elemento){
+    encontrarCorazonOriginal(elemento);
+    if(corazonesEncontrados===10){
+        setTimeout(()=>mostrarRecompensaNueva("recompensaCorazones","GIFs/SORPRESA 1.webp","Yiaaa, encontraste todos. uwu"),250);
+    }
+};
+
+/* Recompensa puzzle */
+const revisarPuzzleOriginal=revisarPuzzle;
+revisarPuzzle=function(){
+    revisarPuzzleOriginal();
+    if(piezas.every((v,i)=>v===ordenCorrecto[i])){
+        mostrarRecompensaNueva("recompensaPuzzle","GIFs/SORPRESA 2.webp","Esooo. Lo armaste completito.");
+    }
+};
+
+/* Recompensa memoria */
+const voltearCartaOriginal=voltearCarta;
+voltearCarta=function(carta,valor){
+    voltearCartaOriginal(carta,valor);
+    if(parejas===3){
+        mostrarRecompensaNueva("recompensaMemoria","GIFs/SORPRESA 3.webp","Noo, sí sabes recordar JAJA.");
+    }
+};
+
+/* Reflejos */
+let reflejosNuevo=0;
+function moverReflejoNuevo(){
+    const zona=document.getElementById("zonaReflejoNuevo");
+    const objetivo=document.getElementById("objetivoReflejoNuevo");
+    const x=Math.random()*(zona.clientWidth-72);
+    const y=Math.random()*(zona.clientHeight-72);
+    objetivo.style.left=Math.max(0,x)+"px";
+    objetivo.style.top=Math.max(0,y)+"px";
+}
+function tocarReflejoNuevo(){
+    reflejosNuevo++;
+    document.getElementById("contadorReflejoNuevo").textContent=reflejosNuevo+" / 6";
+    if(reflejosNuevo<6){
+        moverReflejoNuevo();
+    }else{
+        document.getElementById("objetivoReflejoNuevo").style.display="none";
+        mostrarRecompensaNueva("recompensaReflejosNuevo","GIFs/SORPRESA 6.webp","JAJAJA, sí tienes buenos reflejos.");
+        setTimeout(()=>irA("reflejosNuevo","estrellaNuevo"),1600);
+    }
+}
+moverReflejoNuevo();
+
+/* Estrellita */
+let estrellasNuevo=0;
+function moverEstrellitaNuevo(){
+    const zona=document.getElementById("zonaEstrellitaNuevo");
+    const estrella=document.getElementById("estrellitaNuevo");
+    const x=Math.random()*(zona.clientWidth-70);
+    const y=Math.random()*(zona.clientHeight-70);
+    estrella.style.left=Math.max(4,x)+"px";
+    estrella.style.top=Math.max(4,y)+"px";
+}
+function atraparEstrellitaNuevo(){
+    estrellasNuevo++;
+    const estrella=document.getElementById("estrellitaNuevo");
+    estrella.style.filter="brightness(2) drop-shadow(0 0 40px #fff)";
+    document.getElementById("contadorEstrellitaNuevo").textContent=estrellasNuevo+" / 7";
+    setTimeout(()=>{
+        estrella.style.filter="";
+        if(estrellasNuevo<7){moverEstrellitaNuevo();}
+        else{
+            estrella.style.display="none";
+            mostrarRecompensaNueva("recompensaEstrellitaNuevo","GIFs/SORPRESA 7.webp","LA ATRAPASTE TODAS. Qué pro jsjs.");
+            setTimeout(()=>irA("estrellaNuevo","pastelNuevo"),1700);
+        }
+    },180);
+}
+moverEstrellitaNuevo();
+
+/* Pastel */
+let pastelNuevoHecho=false;
+function celebrarPastelNuevo(){
+    if(pastelNuevoHecho)return;
+    pastelNuevoHecho=true;
+    for(let i=0;i<140;i++){
+        const c=document.createElement("div");
+        c.className="confeti-nuevo";
+        c.style.left=Math.random()*100+"vw";
+        c.style.animationDelay=Math.random()*1.2+"s";
+        c.style.background=`hsl(${Math.random()*360},85%,70%)`;
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),4500);
+    }
+    for(let i=0;i<60;i++){
+        const h=document.createElement("div");
+        h.className="corazon-nuevo";
+        h.textContent="♥";
+        h.style.left=Math.random()*100+"vw";
+        h.style.setProperty("--lado",(Math.random()*120-60)+"px");
+        h.style.animationDelay=Math.random()*1.3+"s";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),5200);
+    }
+    mostrarRecompensaNueva("mensajePastelNuevo","GIFs/SORPRESA 8.webp","jejeje. Feliz cumple.");
+}
+
+
+/* =====================================================
+   CARTA
+===================================================== */
+
+const mensajeFinal=
+
+"Bueno...\n\n"+
+
+"Ahora sí llegamos a la última parte de todo esto.\n\n"+
+
+"Y la verda no sé muy bien cómo empezar, pq siento q esta es probablemente la parte más difícil de hacer.\n\n"+
+
+"Aquí simplemente tengo que decirte lo que siento.\n\n"+
+
+"Y ps... voy a intentarlo.\n\n"+
+
+"Primero q nada, feliz cumpleaños Juli.\n\n"+
+
+"Espero muchísimo q hoy la hayas pasado increíble, q te hayas divertido uwu, Es tu día y quiero q lo disfrutes muchísimo.\n\n"+
+
+Si me hubieran dicho hace un año y medio q aquella persona que conocí en un juego iba a terminar siendo alguien tan importante para mí, probablemente no me lo habría creído.\n\n"+
+
+"Al principio ni siquiera hablábamos tanto.\n\n"+
+
+"Pero supongo q así empiezan algunas de las cosas más bonitas, sin planearlas.\n\n"+
+
+"Pasó el tiempo, seguimos hablando, nos fuimos conociendo poquito a poquito y de alguna manera terminaste formando parte de mi vida.\n\n"+
+
+"Y luego pasó todo lo demás.\n\n"+
+
+"No voy a mentir, jamás pensé q íbamos a terminar siendo novios JAJA.\n\n"+
+
+"De hecho, cuando pasó, hasta me costó aceptar lo que estaba pasando.\n\n"+
+
+"Pero aquí estamos uwu.\n\n"+
+
+"Y sinceramente, me alegra muchísimo.\n\n"+
+
+"Porque con el tiempo me di cuenta de q no eras solamente alguien con quien hablaba por internet.\n\n"+
+
+"Te convertiste en alguien a quien quiero contarle cosas, alguien con quien quiero compartir mis tonterías, alguien de quien me interesa saber cómo está y qué está haciendo.\n\n"+
+
+"Alguien cuya presencia realmente me importa.\n\n"+
+
+"Y creo q eso es algo q quizá no te digo lo suficiente.\n\n"+
+
+"Me importas muchísimo, demasiado.\n\n"+
+
+"Muchísimo más de lo que probablemente puedo explicar escribiendo esta carta JAJA.\n\n"+
+
+"Me gusta poder hablar contigo aunque sea de las cosas más random del mundo.\n\n"+
+
+"Me gusta contarte cosas q me pasan aunque sean completamente insignificantes.\n\n"+
+
+"Y sí, probablemente yo sea el q habla como loca la mayoría del tiempo JAJA, pero aun así me gusta muchísimo compartir esos momentos contigo.\n\n"+
+
+"También me gusta conocer las cosas q te gustan, tus hobbies, las cosas q te interesan y todas esas pequeñas partes de ti q he ido descubriendo con el tiempo.\n\n"+
+
+"Porque cada vez q conozco algo nuevo de ti siento q conozco un poquito más a la persona de la que me enamoré jajasjaajjaja uwu.\n\n"+
+
+"Y hablando de eso...\n\n"+
+
+"Creo q nunca voy a saber exactamente en qué momento empecé a quererte tanto.\n\n"+
+
+"Simplemente pasó.\n\n"+
+
+"Un día eras esa persona que había conocido en un juego y después, sin darme cuenta, ya estaba pensando en ti, esperando tus mensajes, queriendo hablar contigo y preocupándome por cómo estabas.\n\n"+
+
+"Y ahora puedo decir q te amo.\n\n"+
+
+"Y sí, me da un poco de pena escribirlo así JAJA, pero es la verdad.\n\n"+
+
+"Te amo muchísimo.\n\n"+
+
+"Y no quiero q pienses q solamente lo digo porque hoy es tu cumpleaños.\n\n"+
+
+"Te lo digo porque realmente lo siento.\n\n"+
+
+"Obviamente no todo siempre es perfecto, los dos tenemos nuestras cosas y seguramente vamos a seguir cambiando conforme pase el tiempo.\n\n"+
+
+"Pero aun con todo eso, hay algo q no cambia para mí: el cariño q te tengo.\n\n"+
+
+"Quiero seguir conociéndote.\n\n"+
+
+"Quiero seguir escuchando las cosas q quieras contarme.\n\n"+
+
+"Quiero seguir compartiendo tonterías contigo.\n\n"+
+
+"Quiero seguir teniendo llamadas contigo, mandándonos videos, riéndonos de cosas absurdas y creando recuerdos q algún día podamos recordar.\n\n"+
+
+"Y aunque estemos lejos, quiero q sepas q eso no hace q lo q siento por ti sea menos importante para mí.\n\n"+
+
+"Puede q no pueda estar ahí físicamente para darte un abrazo o celebrar contigo como me gustaría, pero al menos puedo intentar hacerte sentir un poquito especial desde aquí.\n\n"+
+
+"Por eso hice esta página.\n\n"+
+
+"Hubo momentos en los q pensé 'para q estoy haciendo todo esto' JAJA, pero después me acordaba de q era para ti y seguía.\n\n"+
+
+"Porque quería q cuando llegaras hasta aquí supieras q todo esto lo hice pensando en ti.\n\n"+
+
+"También quiero agradecerte.\n\n"+
+
+"Gracias por haber aparecido en mi vida.\n\n"+
+
+"Gracias por todos los momentos q hemos compartido.\n\n"+
+
+"Gracias por dejarme conocerte poquito a poquito.\n\n"+
+
+"Gracias por ser tú.\n\n"+
+
+"Y sobre todo, gracias por haberme permitido quererte de esta manera.\n\n"+
+
+"No sé qué vaya a pasar después.\n\n"+
+
+"No quiero prometerte cosas enormes ni decirte q sé exactamente cómo será todo en el futuro, pq nadie puede saber eso.\n\n"+
+
+"Solo sé q ahora mismo estoy muy feliz de tenerte en mi vida.\n\n"+
+
+"Y quiero disfrutarlo.\n\n"+
+
+"Quiero seguir haciendo recuerdos contigo y seguir viendo cómo nuestra historia va avanzando poquito a poquito.\n\n"+
+
+"Eres una persona q llegó de una manera completamente inesperada y terminó ocupando un lugar enorme en mi vida.\n\n"+
+
+"Y aunque probablemente nunca encuentre las palabras exactas para explicarlo, espero q puedas entenderlo con todo lo q hago por ti y con todo lo q intento demostrarte.\n\n"+
+
+"Te quiero muchísimo.\n\n"+
+
+"Te amo más de lo q probablemente sé explicar JAJA.\n\n"+
+
+"Espero q cumplas muchísimos años más.\n\n"+
+
+"Espero q puedas cumplir todas esas cosas q quieres hacer, q sigas aprendiendo, descubriendo cosas nuevas, disfrutando tus hobbies y siendo esa persona q eres.\n\n"+
+
+"Y espero poder seguir estando aquí para verlo.\n\n"+
+
+"Así q...\n\n"+
+
+"Feliz cumpleaños, amor.\n\n"+
+
+"Y espero q nunca olvides q hay alguien detrás de esta página q se pasó quién sabe cuánto tiempo haciéndola solo para poder verte sonreír JAJA.\n\n"+
+
+"Feliz cumpleaños, mi charal. <3\n\n"+
+
+"Te quiero muchísimo.\n\n"+
+
+"UWU.";
+
+let cartaIniciada=false;
+
+function escribirCarta(){
+
+    if(cartaIniciada){
+        return;
+    }
+
+    cartaIniciada=true;
+
+    const elemento=
+    document.getElementById(
+        "textoFinal"
+    );
+
+    let posicion=0;
+
+    function escribir(){
+
+        if(
+            posicion<
+            mensajeFinal.length
+        ){
+
+            elemento.textContent+=
+            mensajeFinal.charAt(
+                posicion
+            );
+
+            posicion++;
+
+            setTimeout(
+                escribir,
+                22
+            );
+
+        }else{
+
+            document.getElementById(
+                "botonFinal"
+            ).style.display=
+            "inline-block";
+        }
+    }
+
+    escribir();
+}
+
+
+/* =====================================================
+   REINICIAR
+===================================================== */
+
+function reiniciar(){
+
+    location.reload();
+
+}
+
+</script>
+
+</body>
+</html>
