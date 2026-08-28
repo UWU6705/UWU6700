@@ -904,184 +904,43 @@ h2{
 .stars-photo{position:fixed;left:0;top:0;z-index:9999;pointer-events:none;font-size:22px;color:#fff;text-shadow:0 0 8px #fff,0 0 20px #83fff1,0 0 35px #4beaff;animation:starsPhoto 1.8s ease-out forwards;}
 @keyframes starsPhoto{from{transform:translate(50vw,50vh) scale(.2) rotate(0);opacity:1;}to{transform:translate(var(--sx),var(--sy)) scale(1.2) rotate(220deg);opacity:0;}}
 
-/* PASTEL FINAL PULIDO */
-.pastel-final-card{
+/* ===== GALERIA REVISADA ===== */
+.galeria .foto{
     position:relative;
-    width:min(820px,94vw);
-    padding:42px 28px 35px;
-    border-radius:34px;
-    overflow:hidden;
-    background:radial-gradient(circle at 50% 30%,rgba(120,255,245,.15),transparent 30%),linear-gradient(145deg,rgba(8,45,55,.94),rgba(2,18,28,.98));
-    border:1px solid rgba(150,255,240,.28);
-    box-shadow:0 0 35px rgba(80,255,230,.16),0 0 90px rgba(40,150,255,.10),inset 0 0 55px rgba(80,255,240,.07);
-}
-.pastel-final-card::before{
-    content:"";
-    position:absolute;
-    inset:-100px;
-    background:conic-gradient(from 0deg,transparent,rgba(130,255,240,.08),transparent 25%);
-    animation:giroPastel 9s linear infinite;
-    pointer-events:none;
-}
-@keyframes giroPastel{to{transform:rotate(360deg)}}
-.pastel-bonito{
-    transform:scale(1.08);
-    margin:34px auto 38px;
-    filter:drop-shadow(0 0 20px rgba(130,255,240,.45)) drop-shadow(0 0 50px rgba(70,180,255,.2));
-}
-.pastel-bonito:hover{transform:scale(1.13);transition:.35s ease}
-.pastel-adornos-final{
-    position:absolute;
-    left:28px;
-    right:28px;
-    top:34px;
-    display:flex;
-    justify-content:space-between;
-    font-size:27px;
-    color:#dffffa;
-    text-shadow:0 0 10px #fff,0 0 24px #83fff1;
-    pointer-events:none;
-    z-index:3;
-}
-.luz-pastel{
-    position:absolute;
-    width:220px;
-    height:220px;
-    left:40px;
-    top:-10px;
-    border-radius:50%;
-    background:radial-gradient(circle,rgba(180,255,250,.25),transparent 68%);
-    pointer-events:none;
-    animation:luzPastel 2s ease-in-out infinite;
-}
-@keyframes luzPastel{50%{transform:scale(1.18);opacity:.7}}
-.pastel-final-boton{position:relative;z-index:4;min-width:190px;font-size:17px}
-.pastel-mensaje{position:relative;z-index:4;margin-top:20px;animation:aparecer .7s ease}
-.pastel-mensaje img{
-    width:min(300px,78vw);
-    max-height:260px;
-    object-fit:contain;
-    display:block;
-    margin:18px auto;
-    border-radius:22px;
-    box-shadow:0 0 45px rgba(100,255,235,.22);
-}
-
-
-/* =====================================================
-   GALERIA INTERACTIVA — CARTAS QUE SE VOLTEAN
-===================================================== */
-.galeria-volteable{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-    gap:22px;
-    width:min(900px,94vw);
-    margin:28px auto;
-}
-.foto-volteable{
-    perspective:1000px;
-    min-height:235px;
-    cursor:pointer;
-}
-.foto-volteable-inner{
-    position:relative;
-    width:100%;
-    height:235px;
+    perspective:1100px;
     transform-style:preserve-3d;
-    transition:transform .7s cubic-bezier(.2,.75,.2,1);
+    transition:transform .45s ease,box-shadow .45s ease;
 }
-.foto-volteable.volteada .foto-volteable-inner{
+.galeria .foto:hover{
+    transform:translateY(-8px) rotateY(-6deg) rotateZ(-1deg);
+    box-shadow:0 18px 48px rgba(0,220,210,.22);
+}
+#imagenVisor{
+    transition:transform .7s cubic-bezier(.2,.8,.2,1),filter .35s ease;
+    transform-style:preserve-3d;
+}
+#imagenVisor.volteada{
     transform:rotateY(180deg);
+    filter:brightness(1.08);
 }
-.foto-cara,.foto-reverso{
-    position:absolute;
-    inset:0;
-    backface-visibility:hidden;
-    -webkit-backface-visibility:hidden;
-    border-radius:24px;
-    overflow:hidden;
-    border:1px solid rgba(140,255,240,.25);
-    box-shadow:0 12px 35px rgba(0,0,0,.24),0 0 25px rgba(70,230,220,.08);
-}
-.foto-cara{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:
-      radial-gradient(circle,rgba(150,255,245,.14),transparent 35%),
-      linear-gradient(145deg,#0c3944,#071c28);
-}
-.foto-cara::before{
-    content:"✦";
-    font-size:58px;
-    color:#eaffff;
-    text-shadow:0 0 10px #fff,0 0 28px #75fff0,0 0 55px #55bfff;
-    animation:brilloCarta 1.6s ease-in-out infinite;
-}
-.foto-reverso{
-    transform:rotateY(180deg);
-    background:#071b25;
-}
-.foto-reverso img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-}
-.foto-volteable.volteada .foto-reverso{
-    box-shadow:0 0 35px rgba(100,255,235,.2);
-}
-@keyframes brilloCarta{
-    50%{transform:scale(1.18) rotate(8deg);filter:brightness(1.35)}
-}
+.boton-visor{margin-left:5px;margin-right:5px}
 
-.boton-estrellas{
-    margin:12px auto 0;
-    display:block;
-    position:relative;
-    z-index:5;
-}
-.lluvia-estrellas{
+/* Estrellas: brotan desde el visor y bajan */
+.stars-photo{
     position:fixed;
-    inset:0;
+    top:42%;
+    left:0;
+    z-index:9999;
     pointer-events:none;
-    overflow:hidden;
-    z-index:999;
+    font-size:var(--st);
+    color:#fff;
+    text-shadow:0 0 7px #fff,0 0 18px #83fff1,0 0 34px #4beaff;
+    animation:starsPhotoDown var(--sd) cubic-bezier(.15,.7,.2,1) forwards;
 }
-.estrella-cayendo{
-    position:absolute;
-    top:-50px;
-    color:#eaffff;
-    font-size:var(--tam);
-    text-shadow:0 0 7px #fff,0 0 18px #76fff0,0 0 34px #5dbbff;
-    animation:brotaEstrella var(--dur) cubic-bezier(.15,.65,.25,1) forwards;
-}
-@keyframes brotaEstrella{
-    0%{
-        transform:translate3d(0,-30px,0) rotate(0deg) scale(.25);
-        opacity:0;
-    }
-    12%{opacity:1;transform:translate3d(0,8vh,0) rotate(55deg) scale(1)}
-    100%{
-        transform:translate3d(var(--x),112vh,0) rotate(420deg) scale(.55);
-        opacity:0;
-    }
-}
-
-/* Contenedor de recompensa debajo de la galería */
-.recompensa-galeria{
-    margin:25px auto;
-    width:min(560px,92vw);
-    animation:aparecer .65s ease;
-}
-.recompensa-galeria img{
-    width:min(290px,80vw);
-    max-height:250px;
-    object-fit:contain;
-    display:block;
-    margin:14px auto;
-    border-radius:20px;
-    box-shadow:0 0 35px rgba(110,255,235,.2);
+@keyframes starsPhotoDown{
+    0%{transform:translate3d(0,0,0) scale(.15) rotate(0);opacity:0}
+    10%{transform:translate3d(0,4vh,0) scale(1);opacity:1}
+    100%{transform:translate3d(var(--sx),58vh,0) scale(.65) rotate(420deg);opacity:0}
 }
 
 </style>
@@ -1268,8 +1127,8 @@ for(let i=1;i<=8;i++){
         </p>
 
         <img
-        src="./GIFs/SORPRESA 1.webp"
-        alt="Sorpresa 1" onerror="this.onerror=null;this.src="./GIFs/SORPRESA 1.webp";">
+        src="./GIFs/SORPRESA%201.webp"
+        alt="Sorpresa 1" onerror="this.onerror=null;this.src='./GIFs/SORPRESA%201.webp';">
 
         <button
         class="boton"
@@ -1360,8 +1219,8 @@ for(let i=1;i<=8;i++){
         </p>
 
         <img
-        src="./GIFs/SORPRESA 2.webp"
-        alt="Sorpresa 2" onerror="this.onerror=null;this.src="./GIFs/SORPRESA 2.webp";">
+        src="./GIFs/SORPRESA%202.webp"
+        alt="Sorpresa 2" onerror="this.onerror=null;this.src='./GIFs/SORPRESA%202.webp';">
 
         <button
         class="boton"
@@ -1439,8 +1298,8 @@ for(let i=1;i<=8;i++){
         </p>
 
         <img
-        src="./GIFs/SORPRESA 3.webp"
-        alt="Sorpresa 3" onerror="this.onerror=null;this.src="./GIFs/SORPRESA 3.webp";">
+        src="./GIFs/SORPRESA%203.webp"
+        alt="Sorpresa 3" onerror="this.onerror=null;this.src='./GIFs/SORPRESA%203.webp';">
 
         <p class="texto">
 
@@ -1464,8 +1323,6 @@ for(let i=1;i<=8;i++){
 <!-- GALERIA -->
 
 <section class="pantalla" id="galeria">
-<div class="galeria-volteable">
-
 
     <div class="caja">
 
@@ -1560,11 +1417,6 @@ for(let i=1;i<=8;i++){
 
     </div>
 
-
-</div>
-<button class="boton boton-estrellas" onclick="brotarEstrellas()">
-    ✦ apretar para que broten estrellitas ✦
-</button>
 </section>
 
 
@@ -1589,7 +1441,15 @@ onclick="cerrarFoto(event)">
         </p>
 
         <button
-        class="boton"
+        class="boton boton-visor"
+        onclick="voltearFotoVisor()">
+
+            voltear la foto
+
+        </button>
+
+        <button
+        class="boton boton-visor"
         onclick="estrellasFoto(); cerrarFoto()">
 
             apretar para que salgan estrellas
@@ -1954,8 +1814,8 @@ src="musica/cancion.mp3">
         </p>
 
         <img
-        src="./GIFs/SORPRESA 4.webp"
-        alt="Sorpresa 4" onerror="this.onerror=null;this.src="./GIFs/SORPRESA 4.webp";">
+        src="./GIFs/SORPRESA%204.webp"
+        alt="Sorpresa 4" onerror="this.onerror=null;this.src='./GIFs/SORPRESA%204.webp';">
 
         <button
         class="boton"
@@ -1972,13 +1832,12 @@ src="musica/cancion.mp3">
 
 <!-- PASTEL FINAL INTERACTIVO -->
 <section class="pantalla" id="pastelNuevo">
-    <div class="pastel-final-card">
+    <div class="caja">
         <h2>Una ultima cosita.</h2>
         <p class="subtitulo">
             Toca el pastel.
         </p>
         <div class="pastel-bonito" onclick="celebrarPastelNuevo()">
-            <div class="luz-pastel"></div>
             <div class="plato-pastel"></div>
             <div class="base-pastel"></div>
             <div class="crema-pastel"></div>
@@ -1986,8 +1845,7 @@ src="musica/cancion.mp3">
             <div class="velita-pastel"><div class="llama-pastel"></div></div>
             <div class="velita-pastel"><div class="llama-pastel"></div></div>
         </div>
-        <div class="pastel-adornos-final"><span>✦</span><span>♡</span><span>✦</span><span>♡</span><span>✦</span></div>
-        <button class="boton pastel-final-boton" onclick="celebrarPastelNuevo()">tocar el pastel</button>
+        <button class="boton" onclick="celebrarPastelNuevo()">tocar el pastel</button>
         <div id="mensajePastelNuevo"></div>
     </div>
 </section>
@@ -2030,8 +1888,8 @@ src="musica/cancion.mp3">
         <h2>Ahora sí...</h2>
 
         <img
-        src="./GIFs/SORPRESA 5.webp"
-        alt="Sorpresa 5" onerror="this.onerror=null;this.src="./GIFs/SORPRESA 5.webp";">
+        src="./GIFs/SORPRESA%205.webp"
+        alt="Sorpresa 5" onerror="this.onerror=null;this.src='./GIFs/SORPRESA%205.webp';">
 
         <button class="boton" onclick="irA('sorpresa5','reflejosNuevo')">
             seguir jugando
@@ -2523,9 +2381,9 @@ function abrirFoto(
     texto
 ){
 
-    document.getElementById(
-        "imagenVisor"
-    ).src=imagen;
+    const imagenElemento=document.getElementById("imagenVisor");
+    imagenElemento.classList.remove("volteada");
+    imagenElemento.src=encodeURI(imagen);
 
     document.getElementById(
         "textoVisor"
@@ -2534,6 +2392,11 @@ function abrirFoto(
     document.getElementById(
         "visor"
     ).classList.add("abierto");
+}
+
+function voltearFotoVisor(){
+    const imagenElemento=document.getElementById("imagenVisor");
+    if(imagenElemento) imagenElemento.classList.toggle("volteada");
 }
 
 function cerrarFoto(event){
@@ -2553,15 +2416,17 @@ function cerrarFoto(event){
 
 /* estrellas al presionar el boton de las fotos */
 function estrellasFoto(){
-    for(let i=0;i<45;i++){
+    for(let i=0;i<55;i++){
         const e=document.createElement("span");
         e.className="stars-photo";
-        e.textContent="✦";
-        e.style.setProperty("--sx",(Math.random()*100-50)+"vw");
-        e.style.setProperty("--sy",(Math.random()*100-50)+"vh");
-        e.style.animationDelay=(Math.random()*.35)+"s";
+        e.textContent=["✦","✧","⋆","★"][Math.floor(Math.random()*4)];
+        e.style.left=(25+Math.random()*50)+"vw";
+        e.style.setProperty("--sx",(Math.random()*34-17)+"vw");
+        e.style.setProperty("--st",(12+Math.random()*20)+"px");
+        e.style.setProperty("--sd",(1.7+Math.random()*1.8)+"s");
+        e.style.animationDelay=(Math.random()*.4)+"s";
         document.body.appendChild(e);
-        setTimeout(()=>e.remove(),2300);
+        setTimeout(()=>e.remove(),4300);
     }
 }
 
@@ -3006,7 +2871,7 @@ const encontrarCorazonOriginal=encontrarCorazon;
 encontrarCorazon=function(elemento){
     encontrarCorazonOriginal(elemento);
     if(corazonesEncontrados===10){
-        setTimeout(()=>mostrarRecompensaNueva("recompensaCorazones","./GIFs/SORPRESA 1.webp","Yiaaa, encontraste todos. uwu"),250);
+        setTimeout(()=>mostrarRecompensaNueva("recompensaCorazones","./GIFs/SORPRESA%201.webp","Yiaaa, encontraste todos. uwu"),250);
     }
 };
 
@@ -3015,7 +2880,7 @@ const revisarPuzzleOriginal=revisarPuzzle;
 revisarPuzzle=function(){
     revisarPuzzleOriginal();
     if(piezas.every((v,i)=>v===ordenCorrecto[i])){
-        mostrarRecompensaNueva("recompensaPuzzle","./GIFs/SORPRESA 2.webp","Esooo. Lo armaste completito.");
+        mostrarRecompensaNueva("recompensaPuzzle","./GIFs/SORPRESA%202.webp","Esooo. Lo armaste completito.");
     }
 };
 
@@ -3024,7 +2889,7 @@ const voltearCartaOriginal=voltearCarta;
 voltearCarta=function(carta,valor){
     voltearCartaOriginal(carta,valor);
     if(parejas===3){
-        mostrarRecompensaNueva("recompensaMemoria","./GIFs/SORPRESA 3.webp","Noo, sí sabes recordar JAJA.");
+        mostrarRecompensaNueva("recompensaMemoria","./GIFs/SORPRESA%203.webp","Noo, sí sabes recordar JAJA.");
     }
 };
 
@@ -3045,7 +2910,7 @@ function tocarReflejoNuevo(){
         moverReflejoNuevo();
     }else{
         document.getElementById("objetivoReflejoNuevo").style.display="none";
-        mostrarRecompensaNueva("recompensaReflejosNuevo","./GIFs/SORPRESA 6.webp","JAJAJA, sí tienes buenos reflejos.");
+        mostrarRecompensaNueva("recompensaReflejosNuevo","./GIFs/SORPRESA%206.webp","JAJAJA, sí tienes buenos reflejos.");
         setTimeout(()=>irA("reflejosNuevo","estrellaNuevo"),1600);
     }
 }
@@ -3071,7 +2936,7 @@ function atraparEstrellitaNuevo(){
         if(estrellasNuevo<7){moverEstrellitaNuevo();}
         else{
             estrella.style.display="none";
-            mostrarRecompensaNueva("recompensaEstrellitaNuevo","./GIFs/SORPRESA 7.webp","LA ATRAPASTE TODAS. Qué pro jsjs.");
+            mostrarRecompensaNueva("recompensaEstrellitaNuevo","./GIFs/SORPRESA%207.webp","LA ATRAPASTE TODAS. Qué pro jsjs.");
             setTimeout(()=>irA("estrellaNuevo","pastelNuevo"),1700);
         }
     },180);
@@ -3102,7 +2967,7 @@ function celebrarPastelNuevo(){
         document.body.appendChild(h);
         setTimeout(()=>h.remove(),5200);
     }
-    mostrarRecompensaNueva("mensajePastelNuevo","./GIFs/SORPRESA 8.webp","jejeje. Feliz cumple.");
+    mostrarRecompensaNueva("mensajePastelNuevo","./GIFs/SORPRESA%208.webp","jejeje. Feliz cumple.");
 }
 
 
@@ -3112,7 +2977,11 @@ function celebrarPastelNuevo(){
 
 const mensajeFinal=
 
-"La verda no sé muy bien cómo empezar, pq siento q esta es probablemente la parte más difícil de hacer.\n\n"+
+"Bueno...\n\n"+
+
+"Ahora sí llegamos a la última parte de todo esto.\n\n"+
+
+"Y la verda no sé muy bien cómo empezar, pq siento q esta es probablemente la parte más difícil de hacer.\n\n"+
 
 "Aquí simplemente tengo que decirte lo que siento.\n\n"+
 
@@ -3120,19 +2989,19 @@ const mensajeFinal=
 
 "Primero q nada, feliz cumpleaños Juli.\n\n"+
 
-"Espero muchísimo q hoy la hayas pasado increíble, q te hayas divertido uwu. Es tu día y quiero q lo disfrutes.\n\n"+
+"Espero muchísimo q hoy la hayas pasado increíble, q te hayas divertido uwu, Es tu día y quiero q lo disfrutes muchísimo.\n\n"+
 
-"Si me hubieran dicho hace un año y medio q aquella persona que conocí en un juego iba a terminar siendo alguien tan importante para mí, probablemente no me lo habría creído la veda jeje.\n\n"+
+"Si me hubieran dicho hace un año y medio q aquella persona que conocí en un juego iba a terminar siendo alguien tan importante para mí, probablemente no me lo habría creído.\n\n"+
 
 "Al principio ni siquiera hablábamos tanto.\n\n"+
 
 "Pero supongo q así empiezan algunas de las cosas más bonitas, sin planearlas.\n\n"+
 
-"Y pues pasó el tiempo, seguimos hablando, nos fuimos conociendo poquito a poquito y de alguna manera terminaste formando parte de mi vida.\n\n"+
+"Pasó el tiempo, seguimos hablando, nos fuimos conociendo poquito a poquito y de alguna manera terminaste formando parte de mi vida.\n\n"+
 
 "Y luego pasó todo lo demás.\n\n"+
 
-"No voa mentir, jamás pensé q íbamos a terminar siendo novios JAJAJAJA.\n\n"+
+"No voy a mentir, jamás pensé q íbamos a terminar siendo novios JAJA.\n\n"+
 
 "De hecho, cuando pasó, hasta me costó aceptar lo que estaba pasando.\n\n"+
 
@@ -3146,17 +3015,17 @@ const mensajeFinal=
 
 "Alguien cuya presencia realmente me importa.\n\n"+
 
-"Y supongo q eso es algo q quizá no te digo lo suficiente.\n\n"+
+"Y creo q eso es algo q quizá no te digo lo suficiente.\n\n"+
 
-"Pero me importas muchísimo, demasiado.\n\n"+
+"Me importas muchísimo, demasiado.\n\n"+
 
-"Muchísimo más de lo que probablemente puedo explicar escribiendo esta carta.\n\n"+
+"Muchísimo más de lo que probablemente puedo explicar escribiendo esta carta JAJA.\n\n"+
 
-"Me gusta poder hablar contigo aunque sea de las cosas más randoms del mundo.\n\n"+
+"Me gusta poder hablar contigo aunque sea de las cosas más random del mundo.\n\n"+
 
-"Me gusta contarte las cosas q me pasan aunque sean completamente insignificantes.\n\n"+
+"Me gusta contarte cosas q me pasan aunque sean completamente insignificantes.\n\n"+
 
-"Y sí, probablemente hablo como autista la mayoría del tiempo jsjsjsjs, pero aun así me gusta muchísimo compartir esos momentos contigo.\n\n"+
+"Y sí, probablemente yo sea el q habla como loca la mayoría del tiempo JAJA, pero aun así me gusta muchísimo compartir esos momentos contigo.\n\n"+
 
 "También me gusta conocer las cosas q te gustan, tus hobbies, las cosas q te interesan y todas esas pequeñas partes de ti q he ido descubriendo con el tiempo.\n\n"+
 
@@ -3170,11 +3039,15 @@ const mensajeFinal=
 
 "Un día eras esa persona que había conocido en un juego y después, sin darme cuenta, ya estaba pensando en ti, esperando tus mensajes, queriendo hablar contigo y preocupándome por cómo estabas.\n\n"+
 
-"Y ahora puedo decir q te amo y un muchote.\n\n"+
+"Y ahora puedo decir q te amo.\n\n"+
 
-"Y sí, me da un poco de pena escribirlo, pero es la veldad.\n\n"+
+"Y sí, me da un poco de pena escribirlo así JAJA, pero es la verdad.\n\n"+
 
 "Te amo muchísimo.\n\n"+
+
+"Y no quiero q pienses q solamente lo digo porque hoy es tu cumpleaños.\n\n"+
+
+"Te lo digo porque realmente lo siento.\n\n"+
 
 "Obviamente no todo siempre es perfecto, los dos tenemos nuestras cosas y seguramente vamos a seguir cambiando conforme pase el tiempo.\n\n"+
 
@@ -3190,9 +3063,11 @@ const mensajeFinal=
 
 "Y aunque estemos lejos, quiero q sepas q eso no hace q lo q siento por ti sea menos importante para mí.\n\n"+
 
-"Puede q no pueda estar ahí físicamente para darte un abrazo o celebrar contigo como me gustaría, pero al menos puedo demostrarte lo que siento a traves de esto.\n\n"+
+"Puede q no pueda estar ahí físicamente para darte un abrazo o celebrar contigo como me gustaría, pero al menos puedo intentar hacerte sentir un poquito especial desde aquí.\n\n"+
 
-"Hubo momentos en los q pensé 'para q conio estoy haciendo todo esto', pero después me acordaba de q era para ti y seguía.\n\n"+
+"Por eso hice esta página.\n\n"+
+
+"Hubo momentos en los q pensé 'para q estoy haciendo todo esto' JAJA, pero después me acordaba de q era para ti y seguía.\n\n"+
 
 "Porque quería q cuando llegaras hasta aquí supieras q todo esto lo hice pensando en ti.\n\n"+
 
@@ -3222,11 +3097,21 @@ const mensajeFinal=
 
 "Y aunque probablemente nunca encuentre las palabras exactas para explicarlo, espero q puedas entenderlo con todo lo q hago por ti y con todo lo q intento demostrarte.\n\n"+
 
+"Te quiero muchísimo.\n\n"+
+
+"Te amo más de lo q probablemente sé explicar JAJA.\n\n"+
+
 "Espero q cumplas muchísimos años más.\n\n"+
 
 "Espero q puedas cumplir todas esas cosas q quieres hacer, q sigas aprendiendo, descubriendo cosas nuevas, disfrutando tus hobbies y siendo esa persona q eres.\n\n"+
 
-"Y espero poder seguir estando aquí para verlo. unu\n\n"+
+"Y espero poder seguir estando aquí para verlo.\n\n"+
+
+"Así q...\n\n"+
+
+"Feliz cumpleaños, amor.\n\n"+
+
+"Y espero q nunca olvides q hay alguien detrás de esta página q se pasó quién sabe cuánto tiempo haciéndola solo para poder verte sonreír JAJA.\n\n"+
 
 "Feliz cumpleaños, mi charal. <3\n\n"+
 
@@ -3293,41 +3178,6 @@ function reiniciar(){
 
 }
 
-</script>
-
-
-<script>
-/* =====================================================
-   GALERIA — VOLTEAR + ESTRELLITAS HACIA ABAJO
-===================================================== */
-function voltearFoto(card){
-    card.classList.toggle("volteada");
-}
-
-function brotarEstrellas(){
-    let lluvia=document.querySelector(".lluvia-estrellas");
-
-    if(!lluvia){
-        lluvia=document.createElement("div");
-        lluvia.className="lluvia-estrellas";
-        document.body.appendChild(lluvia);
-    }
-
-    for(let i=0;i<42;i++){
-        const estrella=document.createElement("span");
-        estrella.className="estrella-cayendo";
-        estrella.textContent=["✦","✧","⋆","★"][Math.floor(Math.random()*4)];
-
-        estrella.style.left=(Math.random()*100)+"vw";
-        estrella.style.setProperty("--x",(Math.random()*180-90)+"px");
-        estrella.style.setProperty("--tam",(12+Math.random()*22)+"px");
-        estrella.style.setProperty("--dur",(2.2+Math.random()*2.3)+"s");
-        estrella.style.animationDelay=(Math.random()*.55)+"s";
-
-        lluvia.appendChild(estrella);
-        setTimeout(()=>estrella.remove(),5000);
-    }
-}
 </script>
 
 </body>
