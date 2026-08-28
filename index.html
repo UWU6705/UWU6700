@@ -907,6 +907,14 @@ h2{
 </head>
 
 <body>
+<script>
+/* Pre-carga de los GIFs para GitHub Pages */
+for(let i=1;i<=8;i++){
+    const gifPreload=new Image();
+    gifPreload.src=encodeURI(`./GIFs/SORPRESA ${i}.webp`);
+}
+</script>
+
 
 <!-- INICIO -->
 
@@ -1079,8 +1087,8 @@ h2{
         </p>
 
         <img
-        src="GIFs/SORPRESA 1.webp"
-        alt="Sorpresa 1">
+        src="./GIFs/SORPRESA 1.webp"
+        alt="Sorpresa 1" onerror="this.onerror=null;this.src='./gifs/SORPRESA 1.webp';">
 
         <button
         class="boton"
@@ -1171,8 +1179,8 @@ h2{
         </p>
 
         <img
-        src="GIFs/SORPRESA 2.webp"
-        alt="Sorpresa 2">
+        src="./GIFs/SORPRESA 2.webp"
+        alt="Sorpresa 2" onerror="this.onerror=null;this.src='./gifs/SORPRESA 2.webp';">
 
         <button
         class="boton"
@@ -1250,8 +1258,8 @@ h2{
         </p>
 
         <img
-        src="GIFs/SORPRESA 3.webp"
-        alt="Sorpresa 3">
+        src="./GIFs/SORPRESA 3.webp"
+        alt="Sorpresa 3" onerror="this.onerror=null;this.src='./gifs/SORPRESA 3.webp';">
 
         <p class="texto">
 
@@ -1758,8 +1766,8 @@ src="musica/cancion.mp3">
         </p>
 
         <img
-        src="GIFs/SORPRESA 4.webp"
-        alt="Sorpresa 4">
+        src="./GIFs/SORPRESA 4.webp"
+        alt="Sorpresa 4" onerror="this.onerror=null;this.src='./gifs/SORPRESA 4.webp';">
 
         <button
         class="boton"
@@ -1832,8 +1840,8 @@ src="musica/cancion.mp3">
         <h2>Ahora sí...</h2>
 
         <img
-        src="GIFs/SORPRESA 5.webp"
-        alt="Sorpresa 5">
+        src="./GIFs/SORPRESA 5.webp"
+        alt="Sorpresa 5" onerror="this.onerror=null;this.src='./gifs/SORPRESA 5.webp';">
 
         <button class="boton" onclick="irA('sorpresa5','reflejosNuevo')">
             seguir jugando
@@ -2789,7 +2797,18 @@ function terminarPreguntas(){
 function mostrarRecompensaNueva(id,gif,texto){
     const caja=document.getElementById(id);
     if(!caja)return;
-    caja.innerHTML=`<div class="recompensa-juego"><img src="${gif}" alt="Sorpresa"><p>${texto}</p></div>`;
+
+    const ruta=encodeURI(gif);
+
+    caja.innerHTML=`
+        <div class="recompensa-juego">
+            <img
+                src="${ruta}"
+                alt="Sorpresa"
+                onerror="this.onerror=null;this.src=encodeURI(gif.replace('./GIFs/','./gifs/'));">
+            <p>${texto}</p>
+        </div>
+    `;
 }
 
 /* Recompensa de corazones */
@@ -2797,7 +2816,7 @@ const encontrarCorazonOriginal=encontrarCorazon;
 encontrarCorazon=function(elemento){
     encontrarCorazonOriginal(elemento);
     if(corazonesEncontrados===10){
-        setTimeout(()=>mostrarRecompensaNueva("recompensaCorazones","GIFs/SORPRESA 1.webp","Yiaaa, encontraste todos. uwu"),250);
+        setTimeout(()=>mostrarRecompensaNueva("recompensaCorazones","./GIFs/SORPRESA 1.webp","Yiaaa, encontraste todos. uwu"),250);
     }
 };
 
@@ -2806,7 +2825,7 @@ const revisarPuzzleOriginal=revisarPuzzle;
 revisarPuzzle=function(){
     revisarPuzzleOriginal();
     if(piezas.every((v,i)=>v===ordenCorrecto[i])){
-        mostrarRecompensaNueva("recompensaPuzzle","GIFs/SORPRESA 2.webp","Esooo. Lo armaste completito.");
+        mostrarRecompensaNueva("recompensaPuzzle","./GIFs/SORPRESA 2.webp","Esooo. Lo armaste completito.");
     }
 };
 
@@ -2815,7 +2834,7 @@ const voltearCartaOriginal=voltearCarta;
 voltearCarta=function(carta,valor){
     voltearCartaOriginal(carta,valor);
     if(parejas===3){
-        mostrarRecompensaNueva("recompensaMemoria","GIFs/SORPRESA 3.webp","Noo, sí sabes recordar JAJA.");
+        mostrarRecompensaNueva("recompensaMemoria","./GIFs/SORPRESA 3.webp","Noo, sí sabes recordar JAJA.");
     }
 };
 
@@ -2836,7 +2855,7 @@ function tocarReflejoNuevo(){
         moverReflejoNuevo();
     }else{
         document.getElementById("objetivoReflejoNuevo").style.display="none";
-        mostrarRecompensaNueva("recompensaReflejosNuevo","GIFs/SORPRESA 6.webp","JAJAJA, sí tienes buenos reflejos.");
+        mostrarRecompensaNueva("recompensaReflejosNuevo","./GIFs/SORPRESA 6.webp","JAJAJA, sí tienes buenos reflejos.");
         setTimeout(()=>irA("reflejosNuevo","estrellaNuevo"),1600);
     }
 }
@@ -2862,7 +2881,7 @@ function atraparEstrellitaNuevo(){
         if(estrellasNuevo<7){moverEstrellitaNuevo();}
         else{
             estrella.style.display="none";
-            mostrarRecompensaNueva("recompensaEstrellitaNuevo","GIFs/SORPRESA 7.webp","LA ATRAPASTE TODAS. Qué pro jsjs.");
+            mostrarRecompensaNueva("recompensaEstrellitaNuevo","./GIFs/SORPRESA 7.webp","LA ATRAPASTE TODAS. Qué pro jsjs.");
             setTimeout(()=>irA("estrellaNuevo","pastelNuevo"),1700);
         }
     },180);
@@ -2893,7 +2912,7 @@ function celebrarPastelNuevo(){
         document.body.appendChild(h);
         setTimeout(()=>h.remove(),5200);
     }
-    mostrarRecompensaNueva("mensajePastelNuevo","GIFs/SORPRESA 8.webp","jejeje. Feliz cumple.");
+    mostrarRecompensaNueva("mensajePastelNuevo","./GIFs/SORPRESA 8.webp","jejeje. Feliz cumple.");
 }
 
 
