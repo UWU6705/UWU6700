@@ -903,6 +903,70 @@ h2{
 
 .stars-photo{position:fixed;left:0;top:0;z-index:9999;pointer-events:none;font-size:22px;color:#fff;text-shadow:0 0 8px #fff,0 0 20px #83fff1,0 0 35px #4beaff;animation:starsPhoto 1.8s ease-out forwards;}
 @keyframes starsPhoto{from{transform:translate(50vw,50vh) scale(.2) rotate(0);opacity:1;}to{transform:translate(var(--sx),var(--sy)) scale(1.2) rotate(220deg);opacity:0;}}
+
+/* PASTEL FINAL PULIDO */
+.pastel-final-card{
+    position:relative;
+    width:min(820px,94vw);
+    padding:42px 28px 35px;
+    border-radius:34px;
+    overflow:hidden;
+    background:radial-gradient(circle at 50% 30%,rgba(120,255,245,.15),transparent 30%),linear-gradient(145deg,rgba(8,45,55,.94),rgba(2,18,28,.98));
+    border:1px solid rgba(150,255,240,.28);
+    box-shadow:0 0 35px rgba(80,255,230,.16),0 0 90px rgba(40,150,255,.10),inset 0 0 55px rgba(80,255,240,.07);
+}
+.pastel-final-card::before{
+    content:"";
+    position:absolute;
+    inset:-100px;
+    background:conic-gradient(from 0deg,transparent,rgba(130,255,240,.08),transparent 25%);
+    animation:giroPastel 9s linear infinite;
+    pointer-events:none;
+}
+@keyframes giroPastel{to{transform:rotate(360deg)}}
+.pastel-bonito{
+    transform:scale(1.08);
+    margin:34px auto 38px;
+    filter:drop-shadow(0 0 20px rgba(130,255,240,.45)) drop-shadow(0 0 50px rgba(70,180,255,.2));
+}
+.pastel-bonito:hover{transform:scale(1.13);transition:.35s ease}
+.pastel-adornos-final{
+    position:absolute;
+    left:28px;
+    right:28px;
+    top:34px;
+    display:flex;
+    justify-content:space-between;
+    font-size:27px;
+    color:#dffffa;
+    text-shadow:0 0 10px #fff,0 0 24px #83fff1;
+    pointer-events:none;
+    z-index:3;
+}
+.luz-pastel{
+    position:absolute;
+    width:220px;
+    height:220px;
+    left:40px;
+    top:-10px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(180,255,250,.25),transparent 68%);
+    pointer-events:none;
+    animation:luzPastel 2s ease-in-out infinite;
+}
+@keyframes luzPastel{50%{transform:scale(1.18);opacity:.7}}
+.pastel-final-boton{position:relative;z-index:4;min-width:190px;font-size:17px}
+.pastel-mensaje{position:relative;z-index:4;margin-top:20px;animation:aparecer .7s ease}
+.pastel-mensaje img{
+    width:min(300px,78vw);
+    max-height:260px;
+    object-fit:contain;
+    display:block;
+    margin:18px auto;
+    border-radius:22px;
+    box-shadow:0 0 45px rgba(100,255,235,.22);
+}
+
 </style>
 </head>
 
@@ -1088,7 +1152,7 @@ for(let i=1;i<=8;i++){
 
         <img
         src="./GIFs/SORPRESA 1.webp"
-        alt="Sorpresa 1" onerror="this.onerror=null;this.src='./gifs/SORPRESA 1.webp';">
+        alt="Sorpresa 1" onerror="this.onerror=null;this.src="./GIFs/SORPRESA 1.webp";">
 
         <button
         class="boton"
@@ -1180,7 +1244,7 @@ for(let i=1;i<=8;i++){
 
         <img
         src="./GIFs/SORPRESA 2.webp"
-        alt="Sorpresa 2" onerror="this.onerror=null;this.src='./gifs/SORPRESA 2.webp';">
+        alt="Sorpresa 2" onerror="this.onerror=null;this.src="./GIFs/SORPRESA 2.webp";">
 
         <button
         class="boton"
@@ -1259,7 +1323,7 @@ for(let i=1;i<=8;i++){
 
         <img
         src="./GIFs/SORPRESA 3.webp"
-        alt="Sorpresa 3" onerror="this.onerror=null;this.src='./gifs/SORPRESA 3.webp';">
+        alt="Sorpresa 3" onerror="this.onerror=null;this.src="./GIFs/SORPRESA 3.webp";">
 
         <p class="texto">
 
@@ -1767,7 +1831,7 @@ src="musica/cancion.mp3">
 
         <img
         src="./GIFs/SORPRESA 4.webp"
-        alt="Sorpresa 4" onerror="this.onerror=null;this.src='./gifs/SORPRESA 4.webp';">
+        alt="Sorpresa 4" onerror="this.onerror=null;this.src="./GIFs/SORPRESA 4.webp";">
 
         <button
         class="boton"
@@ -1784,12 +1848,13 @@ src="musica/cancion.mp3">
 
 <!-- PASTEL FINAL INTERACTIVO -->
 <section class="pantalla" id="pastelNuevo">
-    <div class="caja">
+    <div class="pastel-final-card">
         <h2>Una ultima cosita.</h2>
         <p class="subtitulo">
             Toca el pastel.
         </p>
         <div class="pastel-bonito" onclick="celebrarPastelNuevo()">
+            <div class="luz-pastel"></div>
             <div class="plato-pastel"></div>
             <div class="base-pastel"></div>
             <div class="crema-pastel"></div>
@@ -1797,7 +1862,8 @@ src="musica/cancion.mp3">
             <div class="velita-pastel"><div class="llama-pastel"></div></div>
             <div class="velita-pastel"><div class="llama-pastel"></div></div>
         </div>
-        <button class="boton" onclick="celebrarPastelNuevo()">tocar el pastel</button>
+        <div class="pastel-adornos-final"><span>✦</span><span>♡</span><span>✦</span><span>♡</span><span>✦</span></div>
+        <button class="boton pastel-final-boton" onclick="celebrarPastelNuevo()">tocar el pastel</button>
         <div id="mensajePastelNuevo"></div>
     </div>
 </section>
@@ -1841,7 +1907,7 @@ src="musica/cancion.mp3">
 
         <img
         src="./GIFs/SORPRESA 5.webp"
-        alt="Sorpresa 5" onerror="this.onerror=null;this.src='./gifs/SORPRESA 5.webp';">
+        alt="Sorpresa 5" onerror="this.onerror=null;this.src="./GIFs/SORPRESA 5.webp";">
 
         <button class="boton" onclick="irA('sorpresa5','reflejosNuevo')">
             seguir jugando
