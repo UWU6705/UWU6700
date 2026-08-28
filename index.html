@@ -967,6 +967,123 @@ h2{
     box-shadow:0 0 45px rgba(100,255,235,.22);
 }
 
+
+/* =====================================================
+   GALERIA INTERACTIVA — CARTAS QUE SE VOLTEAN
+===================================================== */
+.galeria-volteable{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:22px;
+    width:min(900px,94vw);
+    margin:28px auto;
+}
+.foto-volteable{
+    perspective:1000px;
+    min-height:235px;
+    cursor:pointer;
+}
+.foto-volteable-inner{
+    position:relative;
+    width:100%;
+    height:235px;
+    transform-style:preserve-3d;
+    transition:transform .7s cubic-bezier(.2,.75,.2,1);
+}
+.foto-volteable.volteada .foto-volteable-inner{
+    transform:rotateY(180deg);
+}
+.foto-cara,.foto-reverso{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    border-radius:24px;
+    overflow:hidden;
+    border:1px solid rgba(140,255,240,.25);
+    box-shadow:0 12px 35px rgba(0,0,0,.24),0 0 25px rgba(70,230,220,.08);
+}
+.foto-cara{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+      radial-gradient(circle,rgba(150,255,245,.14),transparent 35%),
+      linear-gradient(145deg,#0c3944,#071c28);
+}
+.foto-cara::before{
+    content:"✦";
+    font-size:58px;
+    color:#eaffff;
+    text-shadow:0 0 10px #fff,0 0 28px #75fff0,0 0 55px #55bfff;
+    animation:brilloCarta 1.6s ease-in-out infinite;
+}
+.foto-reverso{
+    transform:rotateY(180deg);
+    background:#071b25;
+}
+.foto-reverso img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+.foto-volteable.volteada .foto-reverso{
+    box-shadow:0 0 35px rgba(100,255,235,.2);
+}
+@keyframes brilloCarta{
+    50%{transform:scale(1.18) rotate(8deg);filter:brightness(1.35)}
+}
+
+.boton-estrellas{
+    margin:12px auto 0;
+    display:block;
+    position:relative;
+    z-index:5;
+}
+.lluvia-estrellas{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:999;
+}
+.estrella-cayendo{
+    position:absolute;
+    top:-50px;
+    color:#eaffff;
+    font-size:var(--tam);
+    text-shadow:0 0 7px #fff,0 0 18px #76fff0,0 0 34px #5dbbff;
+    animation:brotaEstrella var(--dur) cubic-bezier(.15,.65,.25,1) forwards;
+}
+@keyframes brotaEstrella{
+    0%{
+        transform:translate3d(0,-30px,0) rotate(0deg) scale(.25);
+        opacity:0;
+    }
+    12%{opacity:1;transform:translate3d(0,8vh,0) rotate(55deg) scale(1)}
+    100%{
+        transform:translate3d(var(--x),112vh,0) rotate(420deg) scale(.55);
+        opacity:0;
+    }
+}
+
+/* Contenedor de recompensa debajo de la galería */
+.recompensa-galeria{
+    margin:25px auto;
+    width:min(560px,92vw);
+    animation:aparecer .65s ease;
+}
+.recompensa-galeria img{
+    width:min(290px,80vw);
+    max-height:250px;
+    object-fit:contain;
+    display:block;
+    margin:14px auto;
+    border-radius:20px;
+    box-shadow:0 0 35px rgba(110,255,235,.2);
+}
+
 </style>
 </head>
 
@@ -1347,6 +1464,8 @@ for(let i=1;i<=8;i++){
 <!-- GALERIA -->
 
 <section class="pantalla" id="galeria">
+<div class="galeria-volteable">
+
 
     <div class="caja">
 
@@ -1441,6 +1560,11 @@ for(let i=1;i<=8;i++){
 
     </div>
 
+
+</div>
+<button class="boton boton-estrellas" onclick="brotarEstrellas()">
+    ✦ apretar para que broten estrellitas ✦
+</button>
 </section>
 
 
@@ -3189,6 +3313,41 @@ function reiniciar(){
 
 }
 
+</script>
+
+
+<script>
+/* =====================================================
+   GALERIA — VOLTEAR + ESTRELLITAS HACIA ABAJO
+===================================================== */
+function voltearFoto(card){
+    card.classList.toggle("volteada");
+}
+
+function brotarEstrellas(){
+    let lluvia=document.querySelector(".lluvia-estrellas");
+
+    if(!lluvia){
+        lluvia=document.createElement("div");
+        lluvia.className="lluvia-estrellas";
+        document.body.appendChild(lluvia);
+    }
+
+    for(let i=0;i<42;i++){
+        const estrella=document.createElement("span");
+        estrella.className="estrella-cayendo";
+        estrella.textContent=["✦","✧","⋆","★"][Math.floor(Math.random()*4)];
+
+        estrella.style.left=(Math.random()*100)+"vw";
+        estrella.style.setProperty("--x",(Math.random()*180-90)+"px");
+        estrella.style.setProperty("--tam",(12+Math.random()*22)+"px");
+        estrella.style.setProperty("--dur",(2.2+Math.random()*2.3)+"s");
+        estrella.style.animationDelay=(Math.random()*.55)+"s";
+
+        lluvia.appendChild(estrella);
+        setTimeout(()=>estrella.remove(),5000);
+    }
+}
 </script>
 
 </body>
